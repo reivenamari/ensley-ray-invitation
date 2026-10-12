@@ -2,11 +2,7 @@
 // ENSLEY RAY - INTERACTIVE FIRST BIRTHDAY INVITATION
 // =========================================================
 
-
-// =========================================================
 // GOOGLE SHEETS RSVP
-// =========================================================
-
 const GOOGLE_SCRIPT_URL =
     "https://script.google.com/macros/s/AKfycbxfsAwuC3AdGPlNROEocxFGZNQM819WMaWlr-RpE4373kWyO-hfOIh1cBpTYvLhv3s/exec";
 
@@ -40,18 +36,14 @@ const mainInvitation =
 
 function playMusic() {
 
-    if (!birthdayMusic) {
-        return;
-    }
+    if (!birthdayMusic) return;
 
     birthdayMusic.play()
         .then(function () {
 
             if (musicButton) {
-
                 musicButton.textContent =
                     "PAUSE MUSIC";
-
             }
 
         })
@@ -68,9 +60,7 @@ function playMusic() {
 
 function pauseMusic() {
 
-    if (!birthdayMusic) {
-        return;
-    }
+    if (!birthdayMusic) return;
 
     birthdayMusic.pause();
 
@@ -80,6 +70,7 @@ function pauseMusic() {
             "PLAY MUSIC";
 
     }
+
 }
 
 
@@ -119,11 +110,11 @@ if (tapToOpen) {
         "click",
         function () {
 
-            // Start music
+            // Start music after user tap
             playMusic();
 
 
-            // Close opening screen
+            // Opening animation
             if (openingScreen) {
 
                 openingScreen.classList.add(
@@ -133,7 +124,7 @@ if (tapToOpen) {
             }
 
 
-            // Show invitation
+            // Show main invitation
             if (mainInvitation) {
 
                 setTimeout(
@@ -253,13 +244,11 @@ function updateCountdown() {
         !minutes ||
         !seconds
     ) {
-
         return;
-
     }
 
 
-    // Birthday has arrived
+    // Birthday already arrived
     if (difference <= 0) {
 
         days.textContent = "0";
@@ -272,16 +261,12 @@ function updateCountdown() {
     }
 
 
-    // DAYS
-
     const dayValue =
         Math.floor(
             difference /
             (1000 * 60 * 60 * 24)
         );
 
-
-    // HOURS
 
     const hourValue =
         Math.floor(
@@ -293,8 +278,6 @@ function updateCountdown() {
         );
 
 
-    // MINUTES
-
     const minuteValue =
         Math.floor(
             (
@@ -304,8 +287,6 @@ function updateCountdown() {
             (1000 * 60)
         );
 
-
-    // SECONDS
 
     const secondValue =
         Math.floor(
@@ -321,21 +302,26 @@ function updateCountdown() {
         dayValue;
 
     hours.textContent =
-        String(hourValue)
-            .padStart(2, "0");
+        String(hourValue).padStart(
+            2,
+            "0"
+        );
 
     minutes.textContent =
-        String(minuteValue)
-            .padStart(2, "0");
+        String(minuteValue).padStart(
+            2,
+            "0"
+        );
 
     seconds.textContent =
-        String(secondValue)
-            .padStart(2, "0");
+        String(secondValue).padStart(
+            2,
+            "0"
+        );
 
 }
 
 
-// Start countdown
 updateCountdown();
 
 setInterval(
@@ -361,46 +347,50 @@ const animatedElements =
     );
 
 
-const animationObserver =
-    new IntersectionObserver(
-        function (entries) {
+if ("IntersectionObserver" in window) {
 
-            entries.forEach(
-                function (entry) {
+    const animationObserver =
+        new IntersectionObserver(
+            function (entries) {
 
-                    if (
-                        entry.isIntersecting
-                    ) {
+                entries.forEach(
+                    function (entry) {
 
-                        entry.target.classList.add(
-                            "section-visible"
-                        );
+                        if (
+                            entry.isIntersecting
+                        ) {
+
+                            entry.target.classList.add(
+                                "section-visible"
+                            );
+
+                        }
 
                     }
+                );
 
-                }
+            },
+            {
+                threshold: 0.15
+            }
+        );
+
+
+    animatedElements.forEach(
+        function (element) {
+
+            animationObserver.observe(
+                element
             );
 
-        },
-        {
-            threshold: 0.15
         }
     );
 
-
-animatedElements.forEach(
-    function (element) {
-
-        animationObserver.observe(
-            element
-        );
-
-    }
-);
+}
 
 
 // =========================================================
-// RSVP OPEN
+// RSVP
 // =========================================================
 
 const openRsvp =
@@ -414,10 +404,7 @@ const rsvpForm =
     );
 
 
-if (
-    openRsvp &&
-    rsvpForm
-) {
+if (openRsvp && rsvpForm) {
 
     openRsvp.addEventListener(
         "click",
@@ -454,18 +441,15 @@ if (submitRsvp) {
         "click",
         async function () {
 
-
             const nameInput =
                 document.getElementById(
                     "guestName"
                 );
 
-
             const attendanceInput =
                 document.getElementById(
                     "attendance"
                 );
-
 
             const guestCountInput =
                 document.getElementById(
@@ -476,17 +460,14 @@ if (submitRsvp) {
             const name =
                 nameInput.value.trim();
 
-
             const attendance =
                 attendanceInput.value;
-
 
             const guestCount =
                 guestCountInput.value;
 
 
-            // CHECK NAME
-
+            // Check name
             if (name === "") {
 
                 alert(
@@ -500,8 +481,7 @@ if (submitRsvp) {
             }
 
 
-            // CHECK ATTENDANCE
-
+            // Check attendance
             if (attendance === "") {
 
                 alert(
@@ -515,8 +495,7 @@ if (submitRsvp) {
             }
 
 
-            // CHECK GUEST COUNT
-
+            // Check guest count
             if (
                 guestCount === "" ||
                 Number(guestCount) < 1
@@ -533,15 +512,12 @@ if (submitRsvp) {
             }
 
 
-            // DISABLE BUTTON
-
+            // Disable button while sending
             submitRsvp.disabled = true;
 
             submitRsvp.textContent =
                 "SUBMITTING...";
 
-
-            // RSVP DATA
 
             const rsvpData = {
 
@@ -578,31 +554,27 @@ if (submitRsvp) {
                 );
 
 
-                // SUCCESS MESSAGE
-
                 alert(
                     "RSVP RECEIVED!\n\n" +
-
                     "Thank you, " +
                     name +
                     "!\n\n" +
-
                     "Status: " +
                     attendance +
                     "\n" +
-
                     "Guests: " +
                     guestCount
                 );
 
 
-                // CLEAR FORM
-
+                // Clear form
                 nameInput.value = "";
 
-                attendanceInput.value = "";
+                attendanceInput.value =
+                    "";
 
-                guestCountInput.value = "1";
+                guestCountInput.value =
+                    "1";
 
 
             } catch (error) {
@@ -612,7 +584,6 @@ if (submitRsvp) {
                     error
                 );
 
-
                 alert(
                     "Sorry, there was a problem sending your RSVP."
                 );
@@ -620,10 +591,8 @@ if (submitRsvp) {
             }
 
 
-            // ENABLE BUTTON AGAIN
-
-            submitRsvp.disabled =
-                false;
+            // Enable button again
+            submitRsvp.disabled = false;
 
             submitRsvp.textContent =
                 "SUBMIT RSVP";
@@ -632,3 +601,251 @@ if (submitRsvp) {
     );
 
 }
+
+
+// =========================================================
+// OUR LITTLE RACER
+// 5-PHOTO SWIPE CAROUSEL
+// =========================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const track =
+            document.querySelector(
+                ".carousel-track"
+            );
+
+        const slides =
+            document.querySelectorAll(
+                ".racer-slide"
+            );
+
+        const dots =
+            document.querySelectorAll(
+                ".carousel-dot"
+            );
+
+        const prevButton =
+            document.querySelector(
+                ".carousel-prev"
+            );
+
+        const nextButton =
+            document.querySelector(
+                ".carousel-next"
+            );
+
+
+        // Stop if carousel does not exist
+        if (
+            !track ||
+            slides.length === 0
+        ) {
+            return;
+        }
+
+
+        let currentSlide = 0;
+
+
+        // =================================================
+        // SHOW SLIDE
+        // =================================================
+
+        function showSlide(index) {
+
+            // Go to last photo
+            if (index < 0) {
+
+                index =
+                    slides.length - 1;
+
+            }
+
+
+            // Go back to first photo
+            if (
+                index >=
+                slides.length
+            ) {
+
+                index = 0;
+
+            }
+
+
+            currentSlide = index;
+
+
+            // Move carousel
+            track.style.transform =
+                "translateX(-" +
+                (
+                    currentSlide * 100
+                ) +
+                "%)";
+
+
+            // Update dots
+            dots.forEach(
+                function (dot, i) {
+
+                    if (
+                        i === currentSlide
+                    ) {
+
+                        dot.classList.add(
+                            "active"
+                        );
+
+                    } else {
+
+                        dot.classList.remove(
+                            "active"
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        // =================================================
+        // NEXT BUTTON
+        // =================================================
+
+        if (nextButton) {
+
+            nextButton.addEventListener(
+                "click",
+                function () {
+
+                    showSlide(
+                        currentSlide + 1
+                    );
+
+                }
+            );
+
+        }
+
+
+        // =================================================
+        // PREVIOUS BUTTON
+        // =================================================
+
+        if (prevButton) {
+
+            prevButton.addEventListener(
+                "click",
+                function () {
+
+                    showSlide(
+                        currentSlide - 1
+                    );
+
+                }
+            );
+
+        }
+
+
+        // =================================================
+        // DOTS
+        // =================================================
+
+        dots.forEach(
+            function (dot) {
+
+                dot.addEventListener(
+                    "click",
+                    function () {
+
+                        const slideNumber =
+                            Number(
+                                dot.getAttribute(
+                                    "data-slide"
+                                )
+                            );
+
+                        showSlide(
+                            slideNumber
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+        // =================================================
+        // MOBILE SWIPE
+        // =================================================
+
+        let startX = 0;
+
+        let endX = 0;
+
+
+        track.addEventListener(
+            "touchstart",
+            function (event) {
+
+                startX =
+                    event.touches[0].clientX;
+
+            },
+            {
+                passive: true
+            }
+        );
+
+
+        track.addEventListener(
+            "touchend",
+            function (event) {
+
+                endX =
+                    event.changedTouches[0].clientX;
+
+
+                const difference =
+                    startX - endX;
+
+
+                // Swipe left
+                if (difference > 50) {
+
+                    showSlide(
+                        currentSlide + 1
+                    );
+
+                }
+
+
+                // Swipe right
+                if (difference < -50) {
+
+                    showSlide(
+                        currentSlide - 1
+                    );
+
+                }
+
+            },
+            {
+                passive: true
+            }
+        );
+
+
+        // Start at photo 1
+        showSlide(0);
+
+    }
+);
