@@ -52,7 +52,7 @@
         </h1>
 
         <h2 class="opening-birthday">
-            IS TURNING ONE!
+           ON
         </h2>
 
         <div class="opening-date">
@@ -134,7 +134,7 @@
                 </div>
 
                 <div>
-                    <strong>12:00 PM</strong>
+                    <strong>8:00 PM</strong>
                 </div>
 
                 <div>
@@ -314,7 +314,7 @@
                     </h3>
 
                     <p>
-                        12:00 PM
+                        8:00 PM
                     </p>
 
                 </div>
@@ -364,7 +364,8 @@
 
 
     <!-- =================================================
-         PHOTO
+         OUR LITTLE RACER
+         5 PHOTO SWIPE CAROUSEL
     ================================================== -->
 
     <section class="photo-section">
@@ -386,19 +387,112 @@
             </div>
 
 
-            <div class="main-photo-frame">
+            <div class="racer-carousel">
 
-                <img
-                    src="images/ensley2.jpg"
-                    alt="Ensley Ray"
+                <div class="carousel-track">
+
+                    <!-- PHOTO 1 -->
+                    <div class="racer-slide">
+                        <img
+                            src="images/ensley1.jpg"
+                            alt="Ensley Ray Photo 1"
+                        >
+                    </div>
+
+                    <!-- PHOTO 2 -->
+                    <div class="racer-slide">
+                        <img
+                            src="images/ensley2.jpg"
+                            alt="Ensley Ray Photo 2"
+                        >
+                    </div>
+
+                    <!-- PHOTO 3 -->
+                    <div class="racer-slide">
+                        <img
+                            src="images/ensley3.jpg"
+                            alt="Ensley Ray Photo 3"
+                        >
+                    </div>
+
+                    <!-- PHOTO 4 -->
+                    <div class="racer-slide">
+                        <img
+                            src="images/ensley4.jpg"
+                            alt="Ensley Ray Photo 4"
+                        >
+                    </div>
+
+                    <!-- PHOTO 5 -->
+                    <div class="racer-slide">
+                        <img
+                            src="images/ensley5.jpg"
+                            alt="Ensley Ray Photo 5"
+                        >
+                    </div>
+
+                </div>
+
+
+                <!-- PREVIOUS -->
+
+                <button
+                    class="carousel-button carousel-prev"
+                    type="button"
+                    aria-label="Previous photo"
                 >
+                    ❮
+                </button>
 
-                <div class="photo-corner top-left"></div>
-                <div class="photo-corner top-right"></div>
-                <div class="photo-corner bottom-left"></div>
-                <div class="photo-corner bottom-right"></div>
+
+                <!-- NEXT -->
+
+                <button
+                    class="carousel-button carousel-next"
+                    type="button"
+                    aria-label="Next photo"
+                >
+                    ❯
+                </button>
 
             </div>
+
+
+            <!-- 5 DOTS -->
+
+            <div class="carousel-dots">
+
+                <span
+                    class="carousel-dot active"
+                    data-slide="0"
+                ></span>
+
+                <span
+                    class="carousel-dot"
+                    data-slide="1"
+                ></span>
+
+                <span
+                    class="carousel-dot"
+                    data-slide="2"
+                ></span>
+
+                <span
+                    class="carousel-dot"
+                    data-slide="3"
+                ></span>
+
+                <span
+                    class="carousel-dot"
+                    data-slide="4"
+                ></span>
+
+            </div>
+
+
+            <p class="swipe-text">
+                ← SWIPE TO SEE MORE →
+            </p>
 
         </div>
 
@@ -525,9 +619,9 @@
                 </h3>
 
                 <p>
-                    EQ Dry 2XL
+                    EQ Dry XL
                     <br>
-                    EQ Pants 2XL
+                    EQ Pants XL
                 </p>
 
             </div>
@@ -609,6 +703,7 @@
                 </div>
 
                 <div>
+
                     <strong>
                         NO SMOKING / VAPE
                     </strong>
@@ -616,6 +711,7 @@
                     <p>
                         Please keep the venue smoke-free.
                     </p>
+
                 </div>
 
             </div>
@@ -628,6 +724,7 @@
                 </div>
 
                 <div>
+
                     <strong>
                         WEAR MASK IF YOU HAVE A COLD
                     </strong>
@@ -635,6 +732,7 @@
                     <p>
                         Help us keep our little birthday boy safe.
                     </p>
+
                 </div>
 
             </div>
@@ -647,6 +745,7 @@
                 </div>
 
                 <div>
+
                     <strong>
                         STRICTLY NO KISSING
                     </strong>
@@ -654,6 +753,7 @@
                     <p>
                         Please avoid kissing the baby.
                     </p>
+
                 </div>
 
             </div>
@@ -666,6 +766,7 @@
                 </div>
 
                 <div>
+
                     <strong>
                         SANITIZE YOUR HANDS
                     </strong>
@@ -674,6 +775,7 @@
                         Please sanitize your hands
                         before touching the baby.
                     </p>
+
                 </div>
 
             </div>
@@ -862,6 +964,194 @@
 
 
 <script src="script.js"></script>
+
+
+<!-- =====================================================
+     OUR LITTLE RACER CAROUSEL SCRIPT
+===================================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const track =
+        document.querySelector(".carousel-track");
+
+    const slides =
+        document.querySelectorAll(".racer-slide");
+
+    const dots =
+        document.querySelectorAll(".carousel-dot");
+
+    const prevButton =
+        document.querySelector(".carousel-prev");
+
+    const nextButton =
+        document.querySelector(".carousel-next");
+
+
+    let currentSlide = 0;
+
+
+    function showSlide(index) {
+
+        if (index < 0) {
+            index = slides.length - 1;
+        }
+
+        if (index >= slides.length) {
+            index = 0;
+        }
+
+
+        currentSlide = index;
+
+
+        track.style.transform =
+            "translateX(-" +
+            (currentSlide * 100) +
+            "%)";
+
+
+        dots.forEach(function (dot, i) {
+
+            if (i === currentSlide) {
+
+                dot.classList.add("active");
+
+            } else {
+
+                dot.classList.remove("active");
+
+            }
+
+        });
+
+    }
+
+
+    /* NEXT BUTTON */
+
+    if (nextButton) {
+
+        nextButton.addEventListener(
+            "click",
+            function () {
+
+                showSlide(
+                    currentSlide + 1
+                );
+
+            }
+        );
+
+    }
+
+
+    /* PREVIOUS BUTTON */
+
+    if (prevButton) {
+
+        prevButton.addEventListener(
+            "click",
+            function () {
+
+                showSlide(
+                    currentSlide - 1
+                );
+
+            }
+        );
+
+    }
+
+
+    /* DOT BUTTONS */
+
+    dots.forEach(function (dot) {
+
+        dot.addEventListener(
+            "click",
+            function () {
+
+                const slideNumber =
+                    Number(
+                        dot.getAttribute(
+                            "data-slide"
+                        )
+                    );
+
+                showSlide(slideNumber);
+
+            }
+        );
+
+    });
+
+
+    /* SWIPE */
+
+    let startX = 0;
+    let endX = 0;
+
+
+    track.addEventListener(
+        "touchstart",
+        function (event) {
+
+            startX =
+                event.touches[0].clientX;
+
+        },
+        { passive: true }
+    );
+
+
+    track.addEventListener(
+        "touchend",
+        function (event) {
+
+            endX =
+                event.changedTouches[0].clientX;
+
+
+            const difference =
+                startX - endX;
+
+
+            /* SWIPE LEFT */
+
+            if (difference > 50) {
+
+                showSlide(
+                    currentSlide + 1
+                );
+
+            }
+
+
+            /* SWIPE RIGHT */
+
+            if (difference < -50) {
+
+                showSlide(
+                    currentSlide - 1
+                );
+
+            }
+
+        },
+        { passive: true }
+    );
+
+
+    /* START WITH PHOTO 1 */
+
+    showSlide(0);
+
+});
+
+</script>
 
 </body>
 </html>
