@@ -35,38 +35,36 @@ const birthdayMusic =
    OPEN INVITATION
 ===================================================== */
 
-function openInvitation() {
+function openInvitation(event) {
 
-    if (openingScreen) {
-        openingScreen.classList.add("opened");
+    if (event) {
+        event.preventDefault();
     }
 
-    if (mainInvitation) {
-        mainInvitation.classList.add("show");
+    if (!openingScreen || !mainInvitation) {
+        console.error("Opening screen or main invitation not found.");
+        return;
     }
+
+    // Prevent multiple clicks
+    if (openingScreen.classList.contains("opened")) {
+        return;
+    }
+
+    openingScreen.classList.add("opened");
+    mainInvitation.classList.add("show");
 
     playMusic();
 
     setTimeout(() => {
-
-        if (openingScreen) {
-            openingScreen.style.display = "none";
-        }
-
+        openingScreen.style.display = "none";
     }, 900);
 
 }
 
-
 if (tapToOpen) {
-
-    tapToOpen.addEventListener("click", () => {
-        openInvitation();
-    });
-
+    tapToOpen.addEventListener("click", openInvitation);
 }
-
-
 /* =====================================================
    START BUTTON
 ===================================================== */
