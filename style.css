@@ -1529,11 +1529,18 @@ footer small {
         scroll-behavior: auto !important;
         transition-duration: 0.01ms !important;
     }
-   /* FIX TAP TO OPEN BUTTON */
+ /* =========================================================
+   TAP TO OPEN BUTTON FIX
+========================================================= */
+
+.opening-screen {
+    pointer-events: auto;
+}
 
 .opening-content {
     position: relative;
     z-index: 10;
+    pointer-events: auto;
 }
 
 .racing-button {
@@ -1541,6 +1548,7 @@ footer small {
     z-index: 20;
     pointer-events: auto;
     cursor: pointer;
+    touch-action: manipulation;
 }
 
 .checkered-top,
