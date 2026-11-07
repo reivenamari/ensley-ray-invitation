@@ -1,7 +1,7 @@
 
 /* =========================================================
    ENSLEY RAY - FIRST BIRTHDAY
-   RACING DESIGN
+   FULL RACING DESIGN + ALL ELEMENT ANIMATIONS
 ========================================================= */
 
 * {
@@ -40,7 +40,9 @@ img {
     max-width: 100%;
 }
 
-/* CHECKERED PATTERN */
+/* =========================================================
+   CHECKERED PATTERN
+========================================================= */
 
 .checkered-top,
 .checkered-bottom,
@@ -60,6 +62,7 @@ img {
         0 12px,
         12px -12px,
         -12px 0;
+    animation: checkeredMove 3s linear infinite;
 }
 
 /* =========================================================
@@ -138,6 +141,7 @@ img {
     border: 5px solid #111;
     box-shadow: 7px 7px 0 #111;
     transform: rotate(-2deg);
+    animation: titleEntrance .9s .2s ease both;
 }
 
 .flag-title span {
@@ -157,6 +161,7 @@ img {
     letter-spacing: 4px;
     font-weight: bold;
     margin-bottom: 8px;
+    animation: fadeUp .9s .3s both;
 }
 
 .opening-name {
@@ -174,6 +179,7 @@ img {
     font-size: clamp(22px, 5vw, 38px);
     font-weight: 900;
     letter-spacing: 2px;
+    animation: fadeUp 1s .4s both;
 }
 
 .opening-date {
@@ -184,6 +190,7 @@ img {
     color: white;
     font-weight: bold;
     letter-spacing: 2px;
+    animation: fadeUp 1s .5s both;
 }
 
 .racing-button {
@@ -202,6 +209,7 @@ img {
     touch-action: manipulation;
     box-shadow: 6px 6px 0 #111;
     transition: transform .2s, box-shadow .2s;
+    animation: buttonPulse 2s ease-in-out infinite;
 }
 
 .racing-button:hover {
@@ -226,6 +234,7 @@ img {
     font-weight: 900;
     letter-spacing: 1px;
     box-shadow: 4px 4px 0 #111;
+    animation: buttonPulse 2s ease-in-out infinite;
 }
 
 /* =========================================================
@@ -268,6 +277,7 @@ img {
     background: #d71920;
     transform: rotate(-35deg);
     opacity: .8;
+    animation: decorationMove 4s ease-in-out infinite;
 }
 
 .hero::before {
@@ -278,6 +288,7 @@ img {
 .hero::after {
     right: -50px;
     bottom: 100px;
+    animation-delay: .5s;
 }
 
 .hero-speed-lines {
@@ -291,12 +302,14 @@ img {
         rgba(215, 25, 32, .04) 46px,
         rgba(215, 25, 32, .04) 49px
     );
+    animation: speedLines 10s linear infinite;
 }
 
 .hero-content {
     position: relative;
     z-index: 2;
     width: min(100%, 650px);
+    animation: fadeUp 1s ease both;
 }
 
 .hero-top-label {
@@ -307,6 +320,7 @@ img {
     font-weight: 900;
     letter-spacing: 3px;
     font-size: 12px;
+    animation: fadeUp .8s .1s both;
 }
 
 .hero-flags {
@@ -328,6 +342,11 @@ img {
         linear-gradient(-45deg, transparent 75%, #111 75%);
     background-size: 20px 20px;
     background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+    animation: flagWave 2s ease-in-out infinite;
+}
+
+.hero-flag:last-child {
+    animation-delay: .3s;
 }
 
 .hero-title {
@@ -337,6 +356,7 @@ img {
     border: 4px solid #111;
     transform: rotate(-2deg);
     box-shadow: 5px 5px 0 #111;
+    animation: titleEntrance .9s .2s both;
 }
 
 .hero-title span,
@@ -360,12 +380,14 @@ img {
     line-height: .95;
     font-weight: 900;
     text-shadow: 4px 4px 0 #111;
+    animation: namePulse 2.5s ease-in-out infinite;
 }
 
 .hero-age {
     margin: 18px 0;
     font-size: clamp(20px, 5vw, 34px);
     font-weight: 900;
+    animation: fadeUp .9s .3s both;
 }
 
 .hero-photo-frame {
@@ -377,6 +399,7 @@ img {
     border: 5px solid #111;
     box-shadow: 10px 10px 0 #d71920;
     transform: rotate(-2deg);
+    animation: photoFloat 4s ease-in-out infinite;
 }
 
 .hero-photo-frame img {
@@ -384,6 +407,7 @@ img {
     width: 100%;
     aspect-ratio: 4 / 5;
     object-fit: cover;
+    animation: imageReveal 1s ease both;
 }
 
 .photo-speed-line {
@@ -394,6 +418,7 @@ img {
     top: 25px;
     background: #d71920;
     transform: rotate(-35deg);
+    animation: decorationMove 3s ease-in-out infinite;
 }
 
 .hero-event-info {
@@ -410,6 +435,12 @@ img {
     padding: 11px 13px;
     font-size: 12px;
     letter-spacing: 1px;
+    animation: fadeUp .7s ease both;
+    transition: transform .3s ease;
+}
+
+.hero-event-info div:hover {
+    transform: translateY(-5px);
 }
 
 .countdown {
@@ -427,6 +458,12 @@ img {
     color: white;
     border: 3px solid #111;
     box-shadow: 3px 3px 0 #111;
+    animation: countdownPop .8s ease both;
+    transition: transform .3s ease;
+}
+
+.countdown-box:hover {
+    transform: translateY(-7px);
 }
 
 .countdown-box span,
@@ -459,6 +496,7 @@ img {
     text-decoration: none;
     box-shadow: 5px 5px 0 #111;
     transition: .2s;
+    animation: buttonEntrance .8s ease both;
 }
 
 .start-button:hover,
@@ -486,12 +524,14 @@ section:not(.hero) {
     gap: 12px;
     margin-bottom: 35px;
     text-align: center;
+    animation: fadeUp .8s ease both;
 }
 
 .section-title h2 {
     font-size: clamp(20px, 5vw, 30px);
     font-weight: 900;
     letter-spacing: 1px;
+    animation: titleEntrance 1s ease both;
 }
 
 .section-number {
@@ -506,6 +546,7 @@ section:not(.hero) {
     border: 3px solid #111;
     font-weight: 900;
     box-shadow: 3px 3px 0 #111;
+    animation: numberBounce 2s ease-in-out infinite;
 }
 
 .section-racing-top {
@@ -536,6 +577,7 @@ section:not(.hero) {
         white 35px,
         white 70px
     );
+    animation: racingLineMove 3s linear infinite;
 }
 
 .welcome-content {
@@ -552,12 +594,14 @@ section:not(.hero) {
     font-size: 12px;
     font-weight: 900;
     letter-spacing: 2px;
+    animation: badgeBounce 2s ease-in-out infinite;
 }
 
 .welcome h2 {
     margin-top: 25px;
     font-size: 22px;
     letter-spacing: 3px;
+    animation: fadeUp .9s .2s both;
 }
 
 .welcome h1 {
@@ -567,6 +611,7 @@ section:not(.hero) {
     font-weight: 900;
     line-height: 1.05;
     text-shadow: 4px 4px 0 #d71920;
+    animation: namePulse 2.5s ease-in-out infinite;
 }
 
 .red-divider {
@@ -574,6 +619,7 @@ section:not(.hero) {
     height: 5px;
     margin: 25px auto;
     background: #d71920;
+    animation: dividerGrow 1s ease both;
 }
 
 .greeting-text {
@@ -581,6 +627,7 @@ section:not(.hero) {
     margin: 15px auto;
     line-height: 1.8;
     color: #eee;
+    animation: fadeUp 1s .3s both;
 }
 
 .birthday-message {
@@ -591,6 +638,7 @@ section:not(.hero) {
     margin: 28px auto;
     color: #ff333b;
     letter-spacing: 2px;
+    animation: emojiBounce 2.5s ease-in-out infinite;
 }
 
 .birthday-message span {
@@ -603,6 +651,7 @@ section:not(.hero) {
     color: #ccc;
     font-style: italic;
     line-height: 1.7;
+    animation: fadeUp 1s .5s both;
 }
 
 /* =========================================================
@@ -633,7 +682,7 @@ section:not(.hero) {
     text-align: left;
     opacity: 0;
     transform: translateY(25px);
-    transition: .6s ease;
+    transition: opacity .6s ease, transform .6s ease, box-shadow .3s ease;
 }
 
 .event-card.visible {
@@ -641,8 +690,14 @@ section:not(.hero) {
     transform: translateY(0);
 }
 
+.event-card:hover {
+    box-shadow: 10px 10px 0 #d71920;
+}
+
 .event-icon {
     font-size: 30px;
+    display: inline-block;
+    animation: emojiBounce 2.5s ease-in-out infinite;
 }
 
 .event-card h3 {
@@ -683,6 +738,7 @@ section:not(.hero) {
     height: 8px;
     background: #d71920;
     transform: rotate(-35deg);
+    animation: decorationMove 4s ease-in-out infinite;
 }
 
 .photo-decoration.left {
@@ -693,6 +749,7 @@ section:not(.hero) {
 .photo-decoration.right {
     right: -20px;
     bottom: 100px;
+    animation-delay: .5s;
 }
 
 .racer-carousel {
@@ -704,6 +761,11 @@ section:not(.hero) {
     box-shadow: 10px 10px 0 #d71920;
     touch-action: pan-y;
     background: #111;
+    transition: box-shadow .4s ease;
+}
+
+.racer-carousel:hover {
+    box-shadow: 14px 14px 0 #d71920;
 }
 
 .carousel-track {
@@ -738,6 +800,12 @@ section:not(.hero) {
     color: white;
     font-size: 20px;
     font-weight: 900;
+    transition: background .3s ease, transform .3s ease;
+}
+
+.carousel-button:hover {
+    background: #111;
+    transform: translateY(-50%) scale(1.12);
 }
 
 .carousel-prev {
@@ -762,17 +830,19 @@ section:not(.hero) {
     border: 2px solid #111;
     border-radius: 50%;
     background: white;
+    transition: transform .3s ease, background .3s ease;
 }
 
 .carousel-dot.active {
     background: #d71920;
-    transform: scale(1.25);
+    transform: scale(1.4);
 }
 
 .swipe-text {
     font-size: 12px;
     font-weight: 900;
     letter-spacing: 2px;
+    animation: gentleFloat 2s ease-in-out infinite;
 }
 
 /* =========================================================
@@ -787,6 +857,7 @@ section:not(.hero) {
 .dress-intro {
     margin-bottom: 25px;
     font-weight: bold;
+    animation: fadeUp .9s ease both;
 }
 
 .dress-colors {
@@ -805,6 +876,13 @@ section:not(.hero) {
     border: 4px solid #111;
     box-shadow: 5px 5px 0 #d71920;
     font-weight: 900;
+    transition: transform .35s ease, box-shadow .35s ease;
+    animation: cardEntrance .8s ease both;
+}
+
+.dress-color:hover {
+    transform: translateY(-9px) rotate(-3deg);
+    box-shadow: 9px 9px 0 #d71920;
 }
 
 .dress-color.red {
@@ -826,6 +904,7 @@ section:not(.hero) {
     margin-top: 25px;
     font-weight: 900;
     letter-spacing: 1px;
+    animation: fadeUp 1s .3s both;
 }
 
 /* =========================================================
@@ -841,6 +920,7 @@ section:not(.hero) {
     max-width: 620px;
     margin: 0 auto 30px;
     line-height: 1.8;
+    animation: fadeUp .9s ease both;
 }
 
 .gift-cards {
@@ -858,7 +938,7 @@ section:not(.hero) {
     box-shadow: 6px 6px 0 #d71920;
     opacity: 0;
     transform: translateY(25px);
-    transition: .6s ease;
+    transition: opacity .6s ease, transform .6s ease, box-shadow .3s ease;
 }
 
 .gift-card.visible {
@@ -866,9 +946,15 @@ section:not(.hero) {
     transform: translateY(0);
 }
 
+.gift-card:hover {
+    box-shadow: 10px 10px 0 #d71920;
+}
+
 .gift-icon {
+    display: inline-block;
     margin-bottom: 12px;
     font-size: 36px;
+    animation: emojiBounce 2.5s ease-in-out infinite;
 }
 
 .gift-card h3 {
@@ -911,7 +997,7 @@ section:not(.hero) {
     box-shadow: 5px 5px 0 #555;
     opacity: 0;
     transform: translateX(-25px);
-    transition: .6s ease;
+    transition: opacity .6s ease, transform .6s ease, box-shadow .3s ease;
 }
 
 .reminder-item.visible {
@@ -919,8 +1005,14 @@ section:not(.hero) {
     transform: translateX(0);
 }
 
+.reminder-item:hover {
+    box-shadow: 9px 9px 0 #555;
+}
+
 .reminder-icon {
+    display: inline-block;
     font-size: 30px;
+    animation: emojiBounce 2.5s ease-in-out infinite;
 }
 
 .reminder-item strong {
@@ -954,6 +1046,7 @@ section:not(.hero) {
 .rsvp-text {
     margin: 0 auto 25px;
     line-height: 1.7;
+    animation: fadeUp .9s ease both;
 }
 
 .rsvp-form {
@@ -965,15 +1058,17 @@ section:not(.hero) {
     border: 3px solid #111;
     box-shadow: 7px 7px 0 #d71920;
     text-align: left;
+    transform-origin: top center;
 }
 
 .rsvp-form.show {
     display: block;
-    animation: openingEnter .4s ease both;
+    animation: formReveal .5s ease both;
 }
 
 .form-group {
     margin-bottom: 18px;
+    animation: fadeUp .6s ease both;
 }
 
 .form-group label {
@@ -992,6 +1087,14 @@ section:not(.hero) {
     border-radius: 0;
     background: #fff;
     color: #111;
+    transition: border-color .25s ease, box-shadow .25s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #d71920;
+    box-shadow: 0 0 0 3px rgba(215, 25, 32, .15);
 }
 
 .submit-rsvp {
@@ -1028,6 +1131,7 @@ section:not(.hero) {
         rgba(0, 0, 0, .08) 41px,
         rgba(0, 0, 0, .08) 45px
     );
+    animation: speedLines 12s linear infinite;
 }
 
 .closing-content {
@@ -1035,6 +1139,7 @@ section:not(.hero) {
     z-index: 2;
     width: min(100%, 600px);
     padding: 30px 15px;
+    animation: fadeUp 1s ease both;
 }
 
 .closing-checkered {
@@ -1054,12 +1159,14 @@ section:not(.hero) {
     font-size: clamp(35px, 9vw, 65px);
     font-weight: 900;
     text-shadow: 4px 4px 0 #111;
+    animation: namePulse 2.5s ease-in-out infinite;
 }
 
 .closing-content h3 {
     margin-bottom: 25px;
     font-size: 23px;
     letter-spacing: 3px;
+    animation: fadeUp 1s .2s both;
 }
 
 .closing-photo {
@@ -1070,6 +1177,7 @@ section:not(.hero) {
     border: 4px solid #111;
     box-shadow: 9px 9px 0 #111;
     transform: rotate(-2deg);
+    animation: photoFloat 4s ease-in-out infinite;
 }
 
 .closing-photo img {
@@ -1084,6 +1192,7 @@ section:not(.hero) {
     font-size: 18px;
     font-weight: bold;
     letter-spacing: 2px;
+    animation: fadeUp 1s .4s both;
 }
 
 /* =========================================================
@@ -1106,6 +1215,7 @@ footer {
 footer p {
     font-weight: 900;
     letter-spacing: 2px;
+    animation: fadeUp .8s ease both;
 }
 
 footer small {
@@ -1113,10 +1223,46 @@ footer small {
     margin-top: 9px;
     color: #ccc;
     letter-spacing: 2px;
+    animation: fadeUp 1s .2s both;
 }
 
 /* =========================================================
-   ANIMATIONS
+   ALL TEXT, EMOJI AND ICON ANIMATIONS
+========================================================= */
+
+/* Animated emojis */
+.event-icon,
+.gift-icon,
+.reminder-icon,
+.birthday-message,
+.opening-content .flag,
+.section-number {
+    will-change: transform;
+}
+
+/* Floating small decorative icons */
+.opening-content .flag-title,
+.hero-top-label,
+.welcome-badge {
+    animation: badgeBounce 2.5s ease-in-out infinite;
+}
+
+/* Text hover */
+.section-title h2,
+.event-card h3,
+.gift-card h3,
+.reminder-item strong {
+    transition: color .3s ease, transform .3s ease;
+}
+
+.section-title h2:hover,
+.event-card h3:hover,
+.gift-card h3:hover {
+    transform: scale(1.04);
+}
+
+/* =========================================================
+   ANIMATION KEYFRAMES
 ========================================================= */
 
 @keyframes openingEnter {
@@ -1139,6 +1285,28 @@ footer small {
     }
 }
 
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes titleEntrance {
+    from {
+        opacity: 0;
+        transform: scale(.85) rotate(-4deg);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(-2deg);
+    }
+}
+
 @keyframes flagWave {
     0%, 100% {
         transform: skewY(-8deg) rotate(0);
@@ -1151,9 +1319,175 @@ footer small {
 @keyframes namePulse {
     0%, 100% {
         transform: scale(1);
+        text-shadow: 4px 4px 0 #111;
     }
     50% {
-        transform: scale(1.025);
+        transform: scale(1.035);
+        text-shadow: 5px 5px 0 #111, 0 0 12px rgba(215, 25, 32, .35);
+    }
+}
+
+@keyframes photoFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(-2deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(1deg);
+    }
+}
+
+@keyframes imageReveal {
+    from {
+        opacity: 0;
+        transform: scale(.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes decorationMove {
+    0%, 100% {
+        translate: 0 0;
+    }
+    50% {
+        translate: 8px -8px;
+    }
+}
+
+@keyframes speedLines {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 100px 100px;
+    }
+}
+
+@keyframes countdownPop {
+    0% {
+        opacity: 0;
+        transform: scale(.7);
+    }
+    70% {
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes numberBounce {
+    0%, 100% {
+        transform: translateY(0) rotate(0);
+    }
+    50% {
+        transform: translateY(-5px) rotate(3deg);
+    }
+}
+
+@keyframes emojiBounce {
+    0%, 100% {
+        transform: translateY(0) rotate(0);
+    }
+    25% {
+        transform: translateY(-7px) rotate(-5deg);
+    }
+    50% {
+        transform: translateY(0) rotate(5deg);
+    }
+    75% {
+        transform: translateY(-4px) rotate(-3deg);
+    }
+}
+
+@keyframes badgeBounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes dividerGrow {
+    from {
+        width: 0;
+        opacity: 0;
+    }
+    to {
+        width: 130px;
+        opacity: 1;
+    }
+}
+
+@keyframes racingLineMove {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 70px 0;
+    }
+}
+
+@keyframes checkeredMove {
+    from {
+        background-position:
+            0 0,
+            0 12px,
+            12px -12px,
+            -12px 0;
+    }
+    to {
+        background-position:
+            24px 0,
+            24px 12px,
+            36px -12px,
+            12px 0;
+    }
+}
+
+@keyframes buttonEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes buttonPulse {
+    0%, 100% {
+        box-shadow: 4px 4px 0 #111;
+    }
+    50% {
+        box-shadow: 6px 6px 0 #111, 0 0 12px rgba(215, 25, 32, .4);
+    }
+}
+
+@keyframes formReveal {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes cardEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(25px) scale(.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
     }
 }
 
