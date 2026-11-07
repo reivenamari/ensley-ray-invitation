@@ -1,29 +1,20 @@
 
 /* =====================================================
    ENSLEY RAY - FIRST BIRTHDAY
-   COMPLETE SCRIPT.JS
+   COMPLETE JAVASCRIPT
 ===================================================== */
 
-const RSVP_URL =
-"https://script.google.com/macros/s/AKfycbxfsAwuC3AdGPlNROEocxFGZNQM819WMaWlr-RpE4373kWyO-hfOIh1cBpTYvLhv3s/exec";
-
-/* =====================================================
-   ELEMENTS
-===================================================== */
-
-const openingScreen = document.getElementById("openingScreen");
-const mainInvitation = document.getElementById("mainInvitation");
-const tapToOpen = document.getElementById("tapToOpen");
-
-const backgroundMusic = document.getElementById("backgroundMusic");
-const musicToggle = document.getElementById("musicToggle");
+const RSVP_URL = "https://script.google.com/macros/s/AKfycbxfsAwuC3AdGPlNROEocxFGZNQM819WMaWlr-RpE4373kWyO-hfOIh1cBpTYvLhv3s/exec";
 
 let invitationOpened = false;
+let currentSlide = 0;
 let musicStarted = false;
+
+const $ = (selector) => document.querySelector(selector);
+const $$ = (selector) => document.querySelectorAll(selector);
 
 /* =====================================================
    OPEN INVITATION
-   IMPORTANT: This function is global for inline onclick
 ===================================================== */
 
 window.openInvitation = function (event) {
@@ -34,22 +25,23 @@ window.openInvitation = function (event) {
 
     if (invitationOpened) return;
 
+    const opening = $("#openingScreen");
+    const main = $("#mainInvitation");
+
+    if (!opening || !main) {
+        console.error("Opening screen or main invitation was not found.");
+        return;
+    }
+
     invitationOpened = true;
 
-    if (openingScreen) {
-        openingScreen.classList.add("opened");
-    }
-
-    if (mainInvitation) {
-        mainInvitation.classList.add("show");
-    }
+    main.classList.add("show");
+    opening.classList.add("opened");
 
     startMusic();
 
-    setTimeout(function () {
-        if (openingScreen) {
-            openingScreen.style.display = "none";
-        }
+    window.setTimeout(() => {
+        opening.style.display = "none";
     }, 1000);
 };
 
@@ -58,46 +50,48 @@ window.openInvitation = function (event) {
 ===================================================== */
 
 function startMusic() {
-    if (!backgroundMusic || musicStarted) return;
+    const music = $("#backgroundMusic");
 
-    backgroundMusic.volume = 0.5;
+    if (!music) return;
 
-    const playPromise = backgroundMusic.play();
+    music.volume = 0.5;
 
-    if (playPromise !== undefined) {
-        playPromise
-            .then(function () {
-                musicStarted = true;
-                updateMusicButton();
-            })
-            .catch(function (error) {
-                console.log("Music playback blocked:", error);
-            });
-    }
+    music.play()
+        .then(() => {
+            musicStarted = true;
+            updateMusicButton();
+        })
+        .catch((error) => {
+            console.log("Music could not start:", error);
+        });
 }
 
 function updateMusicButton() {
-    if (!musicToggle || !backgroundMusic) return;
+    const music = $("#backgroundMusic");
+    const button = $("#musicToggle");
 
-    musicToggle.textContent = backgroundMusic.paused ? "🔇" : "🔊";
+    if (!music || !button) return;
+
+    button.textContent = music.paused ? "🔇" : "🔊";
 }
 
-if (musicToggle && backgroundMusic) {
-    musicToggle.addEventListener("click", function (event) {
-        event.preventDefault();
-        event.stopPropagation();
+const musicButton = $("#musicToggle");
 
-        if (backgroundMusic.paused) {
-            backgroundMusic.play()
-                .then(function () {
+if (musicButton) {
+    musicButton.addEventListener("click", () => {
+        const music = $("#backgroundMusic");
+
+        if (!music) return;
+
+        if (music.paused) {
+            music.play()
+                .then(() => {
                     musicStarted = true;
                     updateMusicButton();
                 })
-                .catch(function (error) {
-                    console.log("Music playback error:", error);
-                });
+                .catch((error) => console.log(error));
         } else {
-            backgroundMusic.pause();
+            music.pause();
             updateMusicButton();
         }
     });
@@ -107,15 +101,16 @@ if (musicToggle && backgroundMusic) {
    START BUTTON
 ===================================================== */
 
-const startButton = document.getElementById("startButton");
+const startButton = $("#startButton");
 
 if (startButton) {
-    startButton.addEventListener("click", function () {
-        const eventSection = document.getElementById("eventDetails");
+    startButton.addEventListener("click", () => {
+        const destination = $("#eventDetails");
 
-        if (eventSection) {
-            eventSection.scrollIntoView({
-                behavior: "smooth"
+        if (destination) {
+            destination.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
             });
         }
     });
@@ -126,85 +121,158 @@ if (startButton) {
 ===================================================== */
 
 function updateCountdown() {
-    const countdownDate = new Date("December 5, 2026 20:00:00").getTime();
-    const now = new Date().getTime();
-    const distance = countdownDate - now;
+    const targetDate = new Date("December 5, 2026 20:00:00").getTime();
+    const now = Date.now();
+    const difference = targetDate - now;
 
-    const daysElement = document.getElementById("days");
-    const hoursElement = document.getElementById("hours");
-    const minutesElement = document.getElementById("minutes");
-    const secondsElement = document.getElementById("seconds");
+    const days = $("#days");
+    const hours = $("#hours");
+    const minutes = $("#minutes");
+    const seconds = $("#seconds");
 
-    if (!daysElement || !hoursElement || !minutesElement || !secondsElement) {
+    if (!days || !hours || !minutes || !seconds) return;
+
+    if (difference <= 0) {
+        days.textContent = "0";
+        hours.textContent = "0";
+        minutes.textContent = "0";
+        seconds.textContent = "0";
         return;
     }
 
-    if (distance <= 0) {
-        daysElement.textContent = "0";
-        hoursElement.textContent = "0";
-        minutesElement.textContent = "0";
-        secondsElement.textContent = "0";
-        return;
-    }
-
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((distance / (1000 * 60)) % 60);
-    const seconds = Math.floor((distance / 1000) % 60);
-
-    daysElement.textContent = days;
-    hoursElement.textContent = hours;
-    minutesElement.textContent = minutes;
-    secondsElement.textContent = seconds;
+    days.textContent = Math.floor(difference / 86400000);
+    hours.textContent = Math.floor((difference / 3600000) % 24);
+    minutes.textContent = Math.floor((difference / 60000) % 60);
+    seconds.textContent = Math.floor((difference / 1000) % 60);
 }
 
 updateCountdown();
-setInterval(updateCountdown, 1000);
+window.setInterval(updateCountdown, 1000);
 
 /* =====================================================
-   SCROLL REVEAL ANIMATION
+   SCROLL REVEAL
 ===================================================== */
 
-const revealElements = document.querySelectorAll(
-    ".reveal, .section, .section-title, .event-card, .gift-card, " +
-    ".reminder-item, .dress-card, .gallery-item, .rsvp-card, " +
-    ".closing-content, .hero-content"
+const revealItems = $$(
+    ".reveal, .section-title, .event-card, .gift-card, " +
+    ".reminder-item, .dress-card, .rsvp-card, " +
+    ".hero-content, .closing-content"
 );
 
 if ("IntersectionObserver" in window) {
-    const revealObserver = new IntersectionObserver(
-        function (entries, observer) {
-            entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("active");
-                    observer.unobserve(entry.target);
-                }
-            });
-        },
-        {
-            threshold: 0.12
-        }
-    );
+    const observer = new IntersectionObserver((entries, currentObserver) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("active");
+                currentObserver.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.12
+    });
 
-    revealElements.forEach(function (element) {
-        element.classList.add("reveal");
-        revealObserver.observe(element);
+    revealItems.forEach((item) => {
+        item.classList.add("reveal");
+        observer.observe(item);
     });
 } else {
-    revealElements.forEach(function (element) {
-        element.classList.add("active");
+    revealItems.forEach((item) => item.classList.add("active"));
+}
+
+/* =====================================================
+   GALLERY CAROUSEL
+===================================================== */
+
+const galleryTrack = $(".gallery-track");
+const gallerySlides = $$(".gallery-slide");
+const previousButton = $("#prevSlide");
+const nextButton = $("#nextSlide");
+const galleryDots = $$(".gallery-dot");
+
+function showSlide(index) {
+    if (!galleryTrack || gallerySlides.length === 0) return;
+
+    if (index < 0) {
+        currentSlide = gallerySlides.length - 1;
+    } else if (index >= gallerySlides.length) {
+        currentSlide = 0;
+    } else {
+        currentSlide = index;
+    }
+
+    galleryTrack.style.transform =
+        `translateX(-${currentSlide * 100}%)`;
+
+    gallerySlides.forEach((slide, position) => {
+        slide.classList.toggle("active", position === currentSlide);
+    });
+
+    galleryDots.forEach((dot, position) => {
+        dot.classList.toggle("active", position === currentSlide);
     });
 }
+
+if (previousButton) {
+    previousButton.addEventListener("click", () => {
+        showSlide(currentSlide - 1);
+    });
+}
+
+if (nextButton) {
+    nextButton.addEventListener("click", () => {
+        showSlide(currentSlide + 1);
+    });
+}
+
+galleryDots.forEach((dot, index) => {
+    dot.addEventListener("click", () => showSlide(index));
+});
+
+/* =====================================================
+   TOUCH SWIPE
+===================================================== */
+
+let touchStartX = 0;
+
+if (galleryTrack) {
+    galleryTrack.addEventListener("touchstart", (event) => {
+        touchStartX = event.changedTouches[0].screenX;
+    }, { passive: true });
+
+    galleryTrack.addEventListener("touchend", (event) => {
+        const touchEndX = event.changedTouches[0].screenX;
+        const distance = touchStartX - touchEndX;
+
+        if (distance > 50) showSlide(currentSlide + 1);
+        if (distance < -50) showSlide(currentSlide - 1);
+    }, { passive: true });
+}
+
+showSlide(0);
+
+/* =====================================================
+   KEYBOARD GALLERY
+===================================================== */
+
+document.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowRight") {
+        showSlide(currentSlide + 1);
+    }
+
+    if (event.key === "ArrowLeft") {
+        showSlide(currentSlide - 1);
+    }
+});
 
 /* =====================================================
    RSVP FORM
 ===================================================== */
 
-const rsvpForm = document.getElementById("rsvpForm");
-const rsvpMessage = document.getElementById("rsvpMessage");
+const rsvpForm = $("#rsvpForm");
+const rsvpMessage = $("#rsvpMessage");
 
 if (rsvpForm) {
-    rsvpForm.addEventListener("submit", async function (event) {
+    rsvpForm.addEventListener("submit", async (event) => {
         event.preventDefault();
 
         const submitButton = rsvpForm.querySelector(
@@ -215,13 +283,11 @@ if (rsvpForm) {
 
         const name = formData.get("name");
         const attendance = formData.get("attendance");
-        const guests = formData.get("guests");
-        const message = formData.get("message");
 
         if (!name || !attendance) {
             if (rsvpMessage) {
                 rsvpMessage.textContent =
-                    "Please complete the required fields.";
+                    "Please enter your name and attendance.";
             }
             return;
         }
@@ -230,8 +296,8 @@ if (rsvpForm) {
 
         data.append("name", name);
         data.append("attendance", attendance);
-        data.append("guests", guests || "1");
-        data.append("message", message || "");
+        data.append("guests", formData.get("guests") || "1");
+        data.append("message", formData.get("message") || "");
 
         if (submitButton) {
             submitButton.disabled = true;
@@ -239,7 +305,7 @@ if (rsvpForm) {
         }
 
         if (rsvpMessage) {
-            rsvpMessage.textContent = "Sending your RSVP...";
+            rsvpMessage.textContent = "Submitting your RSVP...";
         }
 
         try {
@@ -257,11 +323,11 @@ if (rsvpForm) {
             rsvpForm.reset();
 
         } catch (error) {
-            console.error("RSVP Error:", error);
+            console.error("RSVP error:", error);
 
             if (rsvpMessage) {
                 rsvpMessage.textContent =
-                    "Something went wrong. Please try again.";
+                    "Unable to submit. Please try again.";
             }
         } finally {
             if (submitButton) {
@@ -273,113 +339,13 @@ if (rsvpForm) {
 }
 
 /* =====================================================
-   GALLERY CAROUSEL
+   ANIMATION DELAYS FOR DECORATIONS
 ===================================================== */
 
-const galleryTrack = document.querySelector(".gallery-track");
-const gallerySlides = document.querySelectorAll(".gallery-slide");
-
-const prevButton = document.getElementById("prevSlide");
-const nextButton = document.getElementById("nextSlide");
-
-const galleryDots = document.querySelectorAll(".gallery-dot");
-
-let currentSlide = 0;
-
-function showSlide(index) {
-    if (!galleryTrack || gallerySlides.length === 0) return;
-
-    if (index < 0) {
-        currentSlide = gallerySlides.length - 1;
-    } else if (index >= gallerySlides.length) {
-        currentSlide = 0;
-    } else {
-        currentSlide = index;
+$$(".emoji, .racing-emoji, .floating-emoji, .decoration").forEach(
+    (element, index) => {
+        element.style.animationDelay = `${(index % 6) * 0.25}s`;
     }
+);
 
-    galleryTrack.style.transform =
-        "translateX(-" + (currentSlide * 100) + "%)";
-
-    gallerySlides.forEach(function (slide, i) {
-        slide.classList.toggle("active", i === currentSlide);
-    });
-
-    galleryDots.forEach(function (dot, i) {
-        dot.classList.toggle("active", i === currentSlide);
-    });
-}
-
-if (prevButton) {
-    prevButton.addEventListener("click", function () {
-        showSlide(currentSlide - 1);
-    });
-}
-
-if (nextButton) {
-    nextButton.addEventListener("click", function () {
-        showSlide(currentSlide + 1);
-    });
-}
-
-galleryDots.forEach(function (dot, index) {
-    dot.addEventListener("click", function () {
-        showSlide(index);
-    });
-});
-
-/* =====================================================
-   GALLERY SWIPE SUPPORT
-===================================================== */
-
-let touchStartX = 0;
-let touchEndX = 0;
-
-if (galleryTrack) {
-    galleryTrack.addEventListener("touchstart", function (event) {
-        touchStartX = event.changedTouches[0].screenX;
-    }, { passive: true });
-
-    galleryTrack.addEventListener("touchend", function (event) {
-        touchEndX = event.changedTouches[0].screenX;
-
-        const swipeDistance = touchStartX - touchEndX;
-
-        if (swipeDistance > 50) {
-            showSlide(currentSlide + 1);
-        } else if (swipeDistance < -50) {
-            showSlide(currentSlide - 1);
-        }
-    }, { passive: true });
-}
-
-showSlide(0);
-
-/* =====================================================
-   KEYBOARD GALLERY CONTROLS
-===================================================== */
-
-document.addEventListener("keydown", function (event) {
-    if (event.key === "ArrowRight") {
-        showSlide(currentSlide + 1);
-    }
-
-    if (event.key === "ArrowLeft") {
-        showSlide(currentSlide - 1);
-    }
-});
-
-/* =====================================================
-   ANIMATED ELEMENTS
-===================================================== */
-
-document.querySelectorAll(
-    ".emoji, .racing-emoji, .floating-emoji, .decoration"
-).forEach(function (element, index) {
-    element.style.animationDelay = (index * 0.15) + "s";
-});
-
-/* =====================================================
-   CONSOLE MESSAGE
-===================================================== */
-
-console.log("Ensley Ray Birthday Invitation loaded successfully!");
+console.log("Ensley Ray invitation loaded successfully.");
