@@ -1,459 +1,1093 @@
-/* =====================================================
-   ENSLEY RAY FIRST BIRTHDAY
-   COMPLETE JAVASCRIPT
-===================================================== */
-
-"use strict";
 
 /* =====================================================
-   GOOGLE SHEETS RSVP URL
+   ENSLEY RAY - FIRST BIRTHDAY
+   COMPLETE STYLE.CSS
+   RACING THEME + FULL ANIMATIONS
 ===================================================== */
-
-const RSVP_URL =
-"https://script.google.com/macros/s/AKfycbxfsAwuC3AdGPlNROEocxFGZNQM819WMaWlr-RpE4373kWyO-hfOIh1cBpTYvLhv3s/exec";
 
 /* =====================================================
-   ELEMENTS
+   RESET
 ===================================================== */
 
-const openingScreen = document.getElementById("openingScreen");
-const mainInvitation = document.getElementById("mainInvitation");
-const tapToOpen = document.getElementById("tapToOpen");
-
-const musicButton = document.getElementById("musicButton");
-const birthdayMusic = document.getElementById("birthdayMusic");
-
-const startButton = document.getElementById("startButton");
-
-let invitationOpened = false;
-
-/* =====================================================
-   OPEN INVITATION
-===================================================== */
-
-function openInvitation(event) {
-    if (event) {
-        event.preventDefault();
-        event.stopPropagation();
-    }
-
-    if (invitationOpened) {
-        return;
-    }
-
-    if (!openingScreen || !mainInvitation) {
-        console.error("Opening screen or main invitation not found.");
-        return;
-    }
-
-    invitationOpened = true;
-
-    openingScreen.classList.add("opened");
-    mainInvitation.classList.add("show");
-
-    playMusic();
-
-    setTimeout(function () {
-        openingScreen.style.display = "none";
-    }, 950);
-
-    setTimeout(function () {
-        revealVisibleElements();
-    }, 300);
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/*
-   Direct button event.
-   Since script.js is loaded at the bottom of HTML,
-   the button already exists when this runs.
-*/
-
-if (tapToOpen) {
-    tapToOpen.addEventListener("click", openInvitation);
+html {
+    scroll-behavior: smooth;
 }
 
-/*
-   Backup event delegation.
-   This also catches clicks if the button is recreated.
-*/
-
-document.addEventListener("click", function (event) {
-    const button = event.target.closest("#tapToOpen");
-
-    if (button) {
-        openInvitation(event);
-    }
-});
-
-/* =====================================================
-   MUSIC
-===================================================== */
-
-function playMusic() {
-    if (!birthdayMusic || !musicButton) {
-        return;
-    }
-
-    birthdayMusic.volume = 0.6;
-
-    const playPromise = birthdayMusic.play();
-
-    if (playPromise !== undefined) {
-        playPromise
-            .then(function () {
-                musicButton.textContent = "PAUSE MUSIC";
-            })
-            .catch(function () {
-                musicButton.textContent = "PLAY MUSIC";
-            });
-    }
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #111;
+    color: #111;
+    overflow-x: hidden;
 }
 
-function pauseMusic() {
-    if (!birthdayMusic || !musicButton) {
-        return;
-    }
-
-    birthdayMusic.pause();
-    musicButton.textContent = "PLAY MUSIC";
+button,
+input,
+textarea,
+select {
+    font: inherit;
 }
 
-if (musicButton) {
-    musicButton.addEventListener("click", function () {
-        if (!birthdayMusic) {
-            return;
-        }
+button {
+    cursor: pointer;
+}
 
-        if (birthdayMusic.paused) {
-            playMusic();
-        } else {
-            pauseMusic();
-        }
-    });
+img {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+section {
+    position: relative;
+    overflow: hidden;
 }
 
 /* =====================================================
-   START BUTTON
+   GLOBAL ANIMATIONS
 ===================================================== */
 
-if (startButton) {
-    startButton.addEventListener("click", function () {
-        const welcomeSection = document.querySelector(".welcome");
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
 
-        if (welcomeSection) {
-            welcomeSection.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
-        }
-    });
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(35px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-35px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.06);
+    }
+}
+
+@keyframes wiggle {
+    0%, 100% {
+        transform: rotate(0);
+    }
+    25% {
+        transform: rotate(-8deg);
+    }
+    75% {
+        transform: rotate(8deg);
+    }
+}
+
+@keyframes rotateSlow {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes slideLeft {
+    from {
+        opacity: 0;
+        transform: translateX(60px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideRight {
+    from {
+        opacity: 0;
+        transform: translateX(-60px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes shine {
+    0% {
+        background-position: -200% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
+}
+
+@keyframes racingLine {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 80px 0;
+    }
+}
+
+@keyframes carMove {
+    0% {
+        transform: translateX(-120px);
+    }
+    100% {
+        transform: translateX(calc(100vw + 120px));
+    }
+}
+
+@keyframes emojiFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(-5deg);
+    }
+    50% {
+        transform: translateY(-18px) rotate(5deg);
+    }
+}
+
+@keyframes borderGlow {
+    0%, 100% {
+        box-shadow: 0 0 5px #ff2525;
+    }
+    50% {
+        box-shadow: 0 0 20px #ff2525;
+    }
+}
+
+/* =====================================================
+   OPENING SCREEN
+===================================================== */
+
+.opening-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    background: #f8f8f8;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    transition:
+        transform 0.9s ease,
+        opacity 0.9s ease;
+    pointer-events: auto;
+}
+
+.opening-screen.opened {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.opening-content {
+    position: relative;
+    z-index: 1000000;
+    width: 100%;
+    max-width: 650px;
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 30px 20px;
+    animation: zoomIn 1s ease both;
+    pointer-events: auto;
+}
+
+.opening-content * {
+    pointer-events: auto;
+}
+
+.opening-title {
+    color: #111;
+    font-size: clamp(35px, 8vw, 65px);
+    font-weight: 900;
+    letter-spacing: 4px;
+    animation: fadeDown 1s ease both;
+}
+
+.opening-subtitle {
+    color: #d71920;
+    font-size: clamp(15px, 4vw, 24px);
+    font-weight: bold;
+    letter-spacing: 5px;
+    margin-top: 12px;
+    animation: fadeUp 1.2s ease both;
+}
+
+.opening-name {
+    color: #d71920;
+    font-size: clamp(35px, 8vw, 65px);
+    font-weight: 900;
+    margin: 20px 0;
+    animation: pulse 2s infinite;
+}
+
+.opening-date {
+    font-size: 17px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+    animation: fadeUp 1.5s ease both;
+}
+
+/* =====================================================
+   CHECKERED DESIGN
+===================================================== */
+
+.checkered-top,
+.checkered-bottom {
+    width: 100%;
+    height: 35px;
+    background-color: #fff;
+    background-image:
+        linear-gradient(45deg, #111 25%, transparent 25%),
+        linear-gradient(-45deg, #111 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #111 75%),
+        linear-gradient(-45deg, transparent 75%, #111 75%);
+    background-size: 35px 35px;
+    background-position:
+        0 0,
+        0 17.5px,
+        17.5px -17.5px,
+        -17.5px 0;
+    flex-shrink: 0;
+    pointer-events: none;
+    animation: racingLine 3s linear infinite;
+}
+
+/* =====================================================
+   RACING BUTTON
+===================================================== */
+
+.racing-button {
+    position: relative;
+    z-index: 1000001;
+    display: inline-block;
+    border: 3px solid #111;
+    background: #d71920;
+    color: #fff;
+    padding: 16px 35px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    box-shadow: 5px 5px 0 #111;
+    transition: 0.3s ease;
+    cursor: pointer;
+    pointer-events: auto !important;
+    touch-action: manipulation;
+    animation: pulse 2s infinite;
+}
+
+.racing-button:hover {
+    background: #111;
+    color: #fff;
+    transform: translateY(-5px);
+    box-shadow: 7px 7px 0 #d71920;
+}
+
+.racing-button:active {
+    transform: scale(0.95);
+}
+
+/* =====================================================
+   MAIN INVITATION
+===================================================== */
+
+#mainInvitation {
+    display: none;
+    opacity: 0;
+    background: #f5f5f5;
+    min-height: 100vh;
+}
+
+#mainInvitation.show {
+    display: block;
+    animation: fadeIn 1.2s ease forwards;
+}
+
+/* =====================================================
+   MUSIC BUTTON
+===================================================== */
+
+#musicToggle {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 999998;
+    width: 48px;
+    height: 48px;
+    border: 2px solid #111;
+    border-radius: 50%;
+    background: #d71920;
+    color: #fff;
+    font-size: 21px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 3px 3px 0 #111;
+    animation: pulse 2s infinite;
+    cursor: pointer;
+}
+
+/* =====================================================
+   GENERAL SECTION
+===================================================== */
+
+.section {
+    width: 100%;
+    min-height: 100vh;
+    padding: 80px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: #f5f5f5;
+    position: relative;
+}
+
+.section:nth-child(even) {
+    background: #fff;
+}
+
+.section-title {
+    color: #d71920;
+    font-size: clamp(30px, 6vw, 48px);
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    letter-spacing: 3px;
+    animation: fadeUp 1s ease both;
+}
+
+.section-subtitle {
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 25px;
+    line-height: 1.7;
+}
+
+/* =====================================================
+   HERO SECTION
+===================================================== */
+
+.hero-section {
+    min-height: 100vh;
+    background: #111;
+    color: #fff;
+    padding: 80px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 800px;
+    animation: zoomIn 1.2s ease both;
+}
+
+.hero-image {
+    width: 260px;
+    height: 260px;
+    object-fit: cover;
+    border: 8px solid #d71920;
+    border-radius: 50%;
+    margin: 0 auto 30px;
+    box-shadow: 0 0 25px rgba(215, 25, 32, 0.6);
+    animation: float 4s ease-in-out infinite;
+}
+
+.hero-title {
+    color: #fff;
+    font-size: clamp(35px, 8vw, 70px);
+    font-weight: 900;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+}
+
+.hero-name {
+    color: #ff2525;
+    font-size: clamp(40px, 9vw, 75px);
+    font-weight: 900;
+    animation: pulse 2s infinite;
+}
+
+.hero-description {
+    font-size: 18px;
+    line-height: 1.8;
+    margin-top: 20px;
+}
+
+/* =====================================================
+   BIRTHDAY GREETING
+===================================================== */
+
+.welcome-section {
+    background: #d71920;
+    color: #fff;
+}
+
+.welcome-title {
+    font-size: clamp(35px, 7vw, 60px);
+    font-weight: 900;
+    margin-bottom: 20px;
+    animation: bounce 2s infinite;
+}
+
+.welcome-text {
+    max-width: 700px;
+    font-size: 18px;
+    line-height: 1.9;
+    animation: fadeUp 1.5s ease both;
+}
+
+/* =====================================================
+   EVENT DETAILS
+===================================================== */
+
+.event-container {
+    width: 100%;
+    max-width: 850px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.event-card {
+    background: #fff;
+    border: 3px solid #111;
+    border-radius: 12px;
+    padding: 30px 20px;
+    box-shadow: 5px 5px 0 #d71920;
+    transition: 0.3s ease;
+    animation: fadeUp 1s ease both;
+}
+
+.event-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 8px 10px 0 #d71920;
+}
+
+.event-icon {
+    font-size: 35px;
+    display: block;
+    margin-bottom: 15px;
+    animation: emojiFloat 3s ease-in-out infinite;
+}
+
+.event-card h3 {
+    color: #d71920;
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: 900;
+}
+
+.event-card p {
+    font-size: 15px;
+    line-height: 1.7;
 }
 
 /* =====================================================
    COUNTDOWN
 ===================================================== */
 
-function updateCountdown() {
-    const eventDate = new Date("December 5, 2026 20:00:00").getTime();
-    const now = new Date().getTime();
-    const distance = eventDate - now;
-
-    const daysElement = document.getElementById("days");
-    const hoursElement = document.getElementById("hours");
-    const minutesElement = document.getElementById("minutes");
-    const secondsElement = document.getElementById("seconds");
-
-    if (!daysElement || !hoursElement || !minutesElement || !secondsElement) {
-        return;
-    }
-
-    if (distance <= 0) {
-        daysElement.textContent = "0";
-        hoursElement.textContent = "00";
-        minutesElement.textContent = "00";
-        secondsElement.textContent = "00";
-        return;
-    }
-
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((distance / (1000 * 60)) % 60);
-    const seconds = Math.floor((distance / 1000) % 60);
-
-    daysElement.textContent = days;
-    hoursElement.textContent = String(hours).padStart(2, "0");
-    minutesElement.textContent = String(minutes).padStart(2, "0");
-    secondsElement.textContent = String(seconds).padStart(2, "0");
+.countdown-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 35px;
 }
 
-updateCountdown();
-setInterval(updateCountdown, 1000);
-
-/* =====================================================
-   SCROLL REVEAL ANIMATIONS
-===================================================== */
-
-const revealSelectors = [
-    ".section-title",
-    ".event-card",
-    ".gift-card",
-    ".reminder-item",
-    ".welcome-content",
-    ".dress-content",
-    ".racer-carousel",
-    ".carousel-dots",
-    ".rsvp-text",
-    ".closing-content"
-];
-
-function prepareRevealElements() {
-    revealSelectors.forEach(function (selector) {
-        document.querySelectorAll(selector).forEach(function (element) {
-            element.classList.add("reveal");
-        });
-    });
+.countdown-box {
+    min-width: 85px;
+    background: #111;
+    color: #fff;
+    border: 2px solid #d71920;
+    border-radius: 8px;
+    padding: 15px;
+    animation: pulse 2s infinite;
 }
 
-function revealVisibleElements() {
-    const elements = document.querySelectorAll(".reveal");
-
-    elements.forEach(function (element) {
-        const position = element.getBoundingClientRect();
-
-        if (position.top < window.innerHeight - 60) {
-            element.classList.add("visible");
-        }
-    });
+.countdown-box span {
+    display: block;
+    font-size: 30px;
+    font-weight: 900;
+    color: #ff2525;
 }
 
-prepareRevealElements();
-
-window.addEventListener("scroll", revealVisibleElements);
-window.addEventListener("resize", revealVisibleElements);
-window.addEventListener("load", revealVisibleElements);
-
-/* =====================================================
-   RSVP FORM OPEN / CLOSE
-===================================================== */
-
-const openRsvpButton = document.getElementById("openRsvp");
-const rsvpForm = document.getElementById("rsvpForm");
-
-if (openRsvpButton && rsvpForm) {
-    openRsvpButton.addEventListener("click", function () {
-        rsvpForm.classList.toggle("show");
-
-        if (rsvpForm.classList.contains("show")) {
-            rsvpForm.scrollIntoView({
-                behavior: "smooth",
-                block: "center"
-            });
-        }
-    });
+.countdown-box small {
+    font-size: 12px;
+    letter-spacing: 1px;
 }
 
 /* =====================================================
-   SUBMIT RSVP
+   OUR LITTLE RACER / GALLERY
 ===================================================== */
 
-const submitRsvpButton = document.getElementById("submitRsvp");
+.gallery-container {
+    width: 100%;
+    max-width: 650px;
+    overflow: hidden;
+    position: relative;
+    margin: 20px auto;
+    border: 6px solid #111;
+    border-radius: 12px;
+    box-shadow: 8px 8px 0 #d71920;
+}
 
-if (submitRsvpButton) {
-    submitRsvpButton.addEventListener("click", async function () {
-        const guestName = document.getElementById("guestName");
-        const attendance = document.getElementById("attendance");
-        const guestCount = document.getElementById("guestCount");
+.gallery-track {
+    display: flex;
+    transition: transform 0.5s ease;
+    width: 100%;
+}
 
-        if (!guestName || !attendance || !guestCount) {
-            alert("RSVP form fields are missing.");
-            return;
-        }
+.gallery-slide {
+    min-width: 100%;
+    width: 100%;
+    flex-shrink: 0;
+    overflow: hidden;
+}
 
-        const nameValue = guestName.value.trim();
-        const attendanceValue = attendance.value;
-        const guestCountValue = guestCount.value;
+.gallery-slide img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
 
-        if (nameValue === "") {
-            alert("Please enter your name.");
-            guestName.focus();
-            return;
-        }
+.gallery-slide img:hover {
+    transform: scale(1.04);
+}
 
-        if (attendanceValue === "") {
-            alert("Please select your attendance.");
-            attendance.focus();
-            return;
-        }
+.gallery-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 25px;
+}
 
-        if (
-            guestCountValue === "" ||
-            Number(guestCountValue) < 1
-        ) {
-            alert("Please enter a valid number of guests.");
-            guestCount.focus();
-            return;
-        }
+.gallery-controls button {
+    width: 45px;
+    height: 45px;
+    border: 2px solid #111;
+    border-radius: 50%;
+    background: #d71920;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    transition: 0.3s;
+}
 
-        if (!RSVP_URL || RSVP_URL.includes("PASTE_YOUR")) {
-            alert("The RSVP connection is not configured.");
-            return;
-        }
+.gallery-controls button:hover {
+    background: #111;
+    transform: scale(1.1);
+}
 
-        const formData = new URLSearchParams();
+.gallery-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
 
-        formData.append("name", nameValue);
-        formData.append("attendance", attendanceValue);
-        formData.append("guestCount", guestCountValue);
+.gallery-dot {
+    width: 12px;
+    height: 12px;
+    background: #bbb;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+}
 
-        submitRsvpButton.disabled = true;
-        submitRsvpButton.textContent = "SUBMITTING...";
-
-        try {
-            await fetch(RSVP_URL, {
-                method: "POST",
-                mode: "no-cors",
-                body: formData
-            });
-
-            alert(
-                "Thank you, " + nameValue +
-                "! Your RSVP request has been sent."
-            );
-
-            guestName.value = "";
-            attendance.value = "";
-            guestCount.value = "1";
-
-            rsvpForm.classList.remove("show");
-
-        } catch (error) {
-            console.error("RSVP error:", error);
-            alert("Unable to send your RSVP. Please try again.");
-        } finally {
-            submitRsvpButton.disabled = false;
-            submitRsvpButton.textContent = "SUBMIT RSVP";
-        }
-    });
+.gallery-dot.active {
+    background: #d71920;
+    transform: scale(1.3);
 }
 
 /* =====================================================
-   PHOTO CAROUSEL
+   DRESS CODE
 ===================================================== */
 
-const carousel = document.querySelector(".racer-carousel");
-const carouselTrack = document.querySelector(".carousel-track");
-const slides = document.querySelectorAll(".racer-slide");
-const prevButton = document.querySelector(".carousel-prev");
-const nextButton = document.querySelector(".carousel-next");
-const dots = document.querySelectorAll(".carousel-dot");
-
-let currentSlide = 0;
-let touchStartX = 0;
-let touchEndX = 0;
-
-function updateCarousel() {
-    if (!carouselTrack || slides.length === 0) {
-        return;
-    }
-
-    carouselTrack.style.transform =
-        "translateX(-" + (currentSlide * 100) + "%)";
-
-    dots.forEach(function (dot, index) {
-        dot.classList.toggle("active", index === currentSlide);
-    });
+.dress-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 25px;
 }
 
-function showNextSlide() {
-    if (slides.length === 0) {
-        return;
-    }
-
-    currentSlide = (currentSlide + 1) % slides.length;
-    updateCarousel();
+.dress-card {
+    width: 150px;
+    padding: 25px 15px;
+    border: 3px solid #111;
+    border-radius: 10px;
+    box-shadow: 5px 5px 0 #d71920;
+    transition: 0.3s ease;
+    animation: zoomIn 1s ease both;
 }
 
-function showPreviousSlide() {
-    if (slides.length === 0) {
-        return;
-    }
-
-    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-    updateCarousel();
+.dress-card:hover {
+    transform: translateY(-10px) rotate(-2deg);
 }
 
-if (nextButton) {
-    nextButton.addEventListener("click", showNextSlide);
+.dress-color {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 15px;
+    border: 3px solid #111;
+    border-radius: 50%;
 }
 
-if (prevButton) {
-    prevButton.addEventListener("click", showPreviousSlide);
+.dress-red {
+    background: #d71920;
 }
 
-dots.forEach(function (dot) {
-    dot.addEventListener("click", function () {
-        const slideNumber = Number(dot.dataset.slide);
-
-        if (
-            Number.isInteger(slideNumber) &&
-            slideNumber >= 0 &&
-            slideNumber < slides.length
-        ) {
-            currentSlide = slideNumber;
-            updateCarousel();
-        }
-    });
-});
-
-/* Touch swipe support */
-
-if (carousel) {
-    carousel.addEventListener("touchstart", function (event) {
-        touchStartX = event.changedTouches[0].screenX;
-    }, { passive: true });
-
-    carousel.addEventListener("touchend", function (event) {
-        touchEndX = event.changedTouches[0].screenX;
-
-        const difference = touchStartX - touchEndX;
-
-        if (Math.abs(difference) < 40) {
-            return;
-        }
-
-        if (difference > 0) {
-            showNextSlide();
-        } else {
-            showPreviousSlide();
-        }
-    }, { passive: true });
+.dress-white {
+    background: #fff;
 }
 
-/* Keyboard support */
+.dress-black {
+    background: #111;
+}
 
-document.addEventListener("keydown", function (event) {
-    if (event.key === "ArrowRight") {
-        showNextSlide();
-    }
-
-    if (event.key === "ArrowLeft") {
-        showPreviousSlide();
-    }
-});
-
-/* Prevent dragging carousel photos */
-
-document.querySelectorAll(".racer-slide img").forEach(function (image) {
-    image.addEventListener("dragstart", function (event) {
-        event.preventDefault();
-    });
-});
+.dress-card h3 {
+    font-weight: 900;
+    font-size: 17px;
+}
 
 /* =====================================================
-   INITIALIZE
+   GIFT GUIDE
 ===================================================== */
 
-updateCarousel();
-revealVisibleElements();
+.gift-container {
+    width: 100%;
+    max-width: 750px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
 
-console.log("Ensley Ray Birthday Invitation Loaded Successfully!");
+.gift-card {
+    background: #fff;
+    border: 3px solid #111;
+    border-radius: 12px;
+    padding: 25px 20px;
+    box-shadow: 5px 5px 0 #d71920;
+    transition: 0.3s ease;
+    animation: fadeUp 1s ease both;
+}
+
+.gift-card:hover {
+    transform: translateY(-8px);
+}
+
+.gift-icon {
+    font-size: 35px;
+    display: block;
+    margin-bottom: 12px;
+    animation: bounce 2s infinite;
+}
+
+.gift-card h3 {
+    color: #d71920;
+    margin-bottom: 10px;
+    font-weight: 900;
+}
+
+.gift-card p {
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+/* =====================================================
+   REMINDERS
+===================================================== */
+
+.reminders-container {
+    width: 100%;
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.reminder-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-align: left;
+    background: #fff;
+    border: 2px solid #111;
+    border-left: 8px solid #d71920;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 4px 4px 0 #ddd;
+    transition: 0.3s ease;
+    animation: slideRight 0.8s ease both;
+}
+
+.reminder-item:hover {
+    transform: translateX(8px);
+    box-shadow: 5px 5px 0 #d71920;
+}
+
+.reminder-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+    animation: wiggle 3s infinite;
+}
+
+.reminder-item p {
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 1.6;
+}
+
+/* =====================================================
+   RSVP
+===================================================== */
+
+.rsvp-section {
+    background: #111;
+    color: #fff;
+}
+
+.rsvp-section .section-title {
+    color: #ff2525;
+}
+
+.rsvp-card {
+    width: 100%;
+    max-width: 550px;
+    background: #fff;
+    color: #111;
+    padding: 35px 25px;
+    border: 4px solid #d71920;
+    border-radius: 12px;
+    box-shadow: 8px 8px 0 #555;
+    animation: zoomIn 1s ease both;
+}
+
+.rsvp-card input,
+.rsvp-card select,
+.rsvp-card textarea {
+    width: 100%;
+    padding: 14px;
+    margin: 10px 0;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    transition: 0.3s ease;
+    background: #fff;
+    color: #111;
+}
+
+.rsvp-card input:focus,
+.rsvp-card select:focus,
+.rsvp-card textarea:focus {
+    border-color: #d71920;
+    box-shadow: 0 0 8px rgba(215, 25, 32, 0.3);
+}
+
+.rsvp-card textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.rsvp-card button {
+    width: 100%;
+    margin-top: 15px;
+}
+
+#rsvpMessage {
+    margin-top: 15px;
+    font-weight: bold;
+    line-height: 1.6;
+}
+
+/* =====================================================
+   CLOSING
+===================================================== */
+
+.closing-section {
+    min-height: 100vh;
+    background: #d71920;
+    color: #fff;
+    padding: 80px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.closing-image {
+    width: 230px;
+    height: 230px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 8px solid #fff;
+    margin-bottom: 25px;
+    animation: float 4s ease-in-out infinite;
+}
+
+.closing-title {
+    font-size: clamp(35px, 7vw, 60px);
+    font-weight: 900;
+    animation: fadeUp 1s ease both;
+}
+
+.closing-text {
+    max-width: 650px;
+    font-size: 18px;
+    line-height: 1.8;
+    margin-top: 20px;
+}
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+    background: #111;
+    color: #fff;
+    text-align: center;
+    padding: 30px 20px;
+    font-size: 14px;
+}
+
+footer p {
+    line-height: 1.8;
+}
+
+/* =====================================================
+   FLOATING EMOJIS AND DECORATIONS
+===================================================== */
+
+.emoji,
+.racing-emoji,
+.floating-emoji,
+.decoration {
+    display: inline-block;
+    animation: emojiFloat 3s ease-in-out infinite;
+}
+
+.floating-decoration {
+    position: absolute;
+    pointer-events: none;
+    animation: float 4s ease-in-out infinite;
+}
+
+.car-decoration {
+    position: absolute;
+    bottom: 20px;
+    left: -120px;
+    font-size: 45px;
+    animation: carMove 12s linear infinite;
+    pointer-events: none;
+}
+
+/* =====================================================
+   REVEAL ANIMATION
+===================================================== */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(35px);
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* =====================================================
+   RESPONSIVE DESIGN
+===================================================== */
+
+@media screen and (max-width: 768px) {
+
+    .section {
+        padding: 65px 18px;
+        min-height: auto;
+    }
+
+    .hero-section {
+        min-height: 100vh;
+    }
+
+    .hero-image {
+        width: 220px;
+        height: 220px;
+    }
+
+    .event-container {
+        grid-template-columns: 1fr;
+        max-width: 420px;
+    }
+
+    .gift-container {
+        grid-template-columns: 1fr;
+        max-width: 420px;
+    }
+
+    .gallery-slide img {
+        height: 350px;
+    }
+
+    .dress-card {
+        width: 125px;
+    }
+
+    .rsvp-card {
+        padding: 25px 18px;
+    }
+
+    .opening-content {
+        min-height: 75vh;
+        padding: 20px 15px;
+    }
+
+    .checkered-top,
+    .checkered-bottom {
+        height: 25px;
+        background-size: 25px 25px;
+        background-position:
+            0 0,
+            0 12.5px,
+            12.5px -12.5px,
+            -12.5px 0;
+    }
+}
+
+@media screen and (max-width: 480px) {
+
+    .opening-title {
+        letter-spacing: 2px;
+    }
+
+    .opening-subtitle {
+        letter-spacing: 3px;
+    }
+
+    .racing-button {
+        padding: 14px 25px;
+        font-size: 14px;
+    }
+
+    .hero-image {
+        width: 190px;
+        height: 190px;
+    }
+
+    .gallery-slide img {
+        height: 280px;
+    }
+
+    .countdown-box {
+        min-width: 65px;
+        padding: 10px;
+    }
+
+    .countdown-box span {
+        font-size: 24px;
+    }
+
+    .reminder-item {
+        padding: 15px;
+    }
+
+    .reminder-item p {
+        font-size: 13px;
+    }
+
+    .closing-image {
+        width: 190px;
+        height: 190px;
+    }
+}
+
+/* =====================================================
+   ACCESSIBILITY
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+}
