@@ -1,3 +1,4 @@
+```css
 /* =========================================================
    ENSLEY RAY - FIRST BIRTHDAY
    LAST-WEEK RACING DESIGN + ANIMATIONS
@@ -731,15 +732,18 @@ section:not(.hero) {
     overflow: hidden;
     border: 5px solid white;
     box-shadow: 10px 10px 0 #d71920;
+    touch-action: pan-y;
 }
 
 .carousel-track {
     display: flex;
     transition: transform 0.55s cubic-bezier(.77,0,.18,1);
+    will-change: transform;
 }
 
 .racer-slide {
     min-width: 100%;
+    flex: 0 0 100%;
 }
 
 .racer-slide img {
@@ -747,6 +751,8 @@ section:not(.hero) {
     width: 100%;
     aspect-ratio: 4 / 5;
     object-fit: cover;
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
 .carousel-button {
@@ -1073,6 +1079,11 @@ section:not(.hero) {
     background: #d71920;
     border-color: #111;
     box-shadow: 5px 5px 0 #111;
+}
+
+.submit-rsvp:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
 }
 
 /* =========================================================
@@ -1518,7 +1529,5 @@ footer small {
         scroll-behavior: auto !important;
         transition-duration: 0.01ms !important;
     }
-
-    
 }
-
+```
