@@ -1,390 +1,1524 @@
+/* =========================================================
+   ENSLEY RAY - FIRST BIRTHDAY
+   LAST-WEEK RACING DESIGN + ANIMATIONS
+========================================================= */
 
-/* =====================================================
-   ENSLEY RAY FIRST BIRTHDAY
-   SCRIPT.JS
-===================================================== */
-
-const RSVP_URL =
-"https://script.google.com/macros/s/AKfycbxfsAwuC3AdGPlNROEocxFGZNQM819WMaWlr-RpE4373kWyO-hfOIh1cBpTYvLhv3s/exec";
-
-/* ELEMENTS */
-const openingScreen = document.getElementById("openingScreen");
-const mainInvitation = document.getElementById("mainInvitation");
-const tapToOpen = document.getElementById("tapToOpen");
-const startButton = document.getElementById("startButton");
-const musicButton = document.getElementById("musicButton");
-const birthdayMusic = document.getElementById("birthdayMusic");
-
-let invitationOpened = false;
-
-/* =====================================================
-   OPEN INVITATION
-===================================================== */
-
-function openInvitation(event) {
-    if (event) {
-        event.preventDefault();
-        event.stopPropagation();
-    }
-
-    if (invitationOpened) return;
-
-    if (!openingScreen || !mainInvitation) {
-        console.error("Opening screen or main invitation element is missing.");
-        return;
-    }
-
-    invitationOpened = true;
-
-    openingScreen.classList.add("opened");
-    mainInvitation.classList.add("show");
-
-    playMusic();
-
-    setTimeout(() => {
-        openingScreen.style.display = "none";
-    }, 950);
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* Direct button event */
-if (tapToOpen) {
-    tapToOpen.addEventListener("click", openInvitation);
+html {
+    scroll-behavior: smooth;
 }
 
-/* Backup event delegation */
-document.addEventListener("click", function(event) {
-    const button = event.target.closest("#tapToOpen");
-
-    if (button) {
-        openInvitation(event);
-    }
-});
-
-/* =====================================================
-   START BUTTON
-===================================================== */
-
-if (startButton) {
-    startButton.addEventListener("click", () => {
-        window.scrollTo({
-            top: window.innerHeight,
-            behavior: "smooth"
-        });
-    });
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #111;
+    color: #111;
+    overflow-x: hidden;
 }
 
-/* =====================================================
-   MUSIC
-===================================================== */
-
-function playMusic() {
-    if (!birthdayMusic) return;
-
-    birthdayMusic.volume = 0.6;
-
-    const playPromise = birthdayMusic.play();
-
-    if (playPromise !== undefined) {
-        playPromise.then(() => {
-            if (musicButton) {
-                musicButton.textContent = "PAUSE MUSIC";
-            }
-        }).catch(error => {
-            console.warn("Music playback was blocked:", error);
-
-            if (musicButton) {
-                musicButton.textContent = "PLAY MUSIC";
-            }
-        });
-    }
+button,
+a,
+input,
+select {
+    font-family: inherit;
 }
 
-function pauseMusic() {
-    if (!birthdayMusic) return;
+/* =========================================================
+   CHECKERED PATTERN
+========================================================= */
 
-    birthdayMusic.pause();
-
-    if (musicButton) {
-        musicButton.textContent = "PLAY MUSIC";
-    }
+.checkered-top,
+.checkered-bottom,
+.section-racing-top,
+.rsvp-finish-line,
+.footer-checkered,
+.closing-checkered {
+    background-color: #fff;
+    background-image:
+        linear-gradient(45deg, #111 25%, transparent 25%),
+        linear-gradient(-45deg, #111 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #111 75%),
+        linear-gradient(-45deg, transparent 75%, #111 75%);
+    background-size: 28px 28px;
+    background-position:
+        0 0,
+        0 14px,
+        14px -14px,
+        -14px 0;
 }
 
-if (musicButton) {
-    musicButton.addEventListener("click", () => {
-        if (!birthdayMusic) return;
+/* =========================================================
+   OPENING SCREEN
+========================================================= */
 
-        if (birthdayMusic.paused) {
-            playMusic();
-        } else {
-            pauseMusic();
-        }
-    });
+.opening-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #f8f8f8;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    transition:
+        transform 0.9s ease,
+        opacity 0.9s ease;
 }
 
-/* =====================================================
-   COUNTDOWN
-===================================================== */
-
-const birthdayDate = new Date("December 5, 2026 20:00:00").getTime();
-
-function updateCountdown() {
-    const now = Date.now();
-    const distance = birthdayDate - now;
-
-    const daysElement = document.getElementById("days");
-    const hoursElement = document.getElementById("hours");
-    const minutesElement = document.getElementById("minutes");
-    const secondsElement = document.getElementById("seconds");
-
-    if (distance <= 0) {
-        if (daysElement) daysElement.textContent = "0";
-        if (hoursElement) hoursElement.textContent = "00";
-        if (minutesElement) minutesElement.textContent = "00";
-        if (secondsElement) secondsElement.textContent = "00";
-        return;
-    }
-
-    const days = Math.floor(distance / 86400000);
-    const hours = Math.floor((distance % 86400000) / 3600000);
-    const minutes = Math.floor((distance % 3600000) / 60000);
-    const seconds = Math.floor((distance % 60000) / 1000);
-
-    if (daysElement) daysElement.textContent = days;
-    if (hoursElement) hoursElement.textContent = String(hours).padStart(2, "0");
-    if (minutesElement) minutesElement.textContent = String(minutes).padStart(2, "0");
-    if (secondsElement) secondsElement.textContent = String(seconds).padStart(2, "0");
+.opening-screen.opened {
+    transform: translateY(-100%);
+    opacity: 0;
 }
 
-updateCountdown();
-setInterval(updateCountdown, 1000);
-
-/* =====================================================
-   SCROLL REVEAL
-===================================================== */
-
-const animatedElements = document.querySelectorAll(
-    ".event-card, .gift-card, .reminder-item, .section-title, .welcome-content"
-);
-
-function revealOnScroll() {
-    animatedElements.forEach(element => {
-        const rect = element.getBoundingClientRect();
-
-        if (rect.top < window.innerHeight - 80) {
-            element.classList.add("visible");
-        }
-    });
+.checkered-top,
+.checkered-bottom {
+    width: 100%;
+    height: 42px;
+    flex-shrink: 0;
 }
 
-window.addEventListener("scroll", revealOnScroll, { passive: true });
-window.addEventListener("load", revealOnScroll);
-revealOnScroll();
+.opening-content {
+    width: min(92%, 600px);
+    margin: auto;
+    text-align: center;
+    padding: 30px 20px;
+    animation: openingEnter 1s ease both;
+}
 
-/* =====================================================
+.racing-flags {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.flag {
+    width: 75px;
+    height: 75px;
+    background-color: white;
+    background-image:
+        linear-gradient(45deg, #111 25%, transparent 25%),
+        linear-gradient(-45deg, #111 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #111 75%),
+        linear-gradient(-45deg, transparent 75%, #111 75%);
+    background-size: 20px 20px;
+    background-position:
+        0 0,
+        0 10px,
+        10px -10px,
+        -10px 0;
+    transform: skewY(-8deg);
+    animation: flagWave 2s ease-in-out infinite;
+}
+
+.flag-right {
+    animation-delay: 0.3s;
+}
+
+.flag-title {
+    background: #d71920;
+    color: white;
+    padding: 15px 20px;
+    border: 5px solid #111;
+    box-shadow: 7px 7px 0 #111;
+    transform: rotate(-2deg);
+}
+
+.flag-title span {
+    display: block;
+    font-size: 13px;
+    letter-spacing: 3px;
+}
+
+.flag-title strong {
+    display: block;
+    font-size: 30px;
+    letter-spacing: 2px;
+}
+
+.opening-small {
+    font-size: 13px;
+    letter-spacing: 4px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.opening-name {
+    color: #d71920;
+    font-size: clamp(42px, 10vw, 80px);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -2px;
+    text-shadow: 4px 4px 0 #111;
+    animation: namePulse 2s ease-in-out infinite;
+}
+
+.opening-birthday {
+    margin-top: 18px;
+    font-size: clamp(22px, 5vw, 38px);
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.opening-date {
+    margin-top: 18px;
+    display: inline-block;
+    padding: 10px 20px;
+    background: #111;
+    color: white;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.racing-button {
+    margin-top: 28px;
+    padding: 16px 35px;
+    border: 4px solid #111;
+    background: #d71920;
+    color: white;
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    cursor: pointer;
+    box-shadow: 6px 6px 0 #111;
+    transition: 0.2s;
+}
+
+.racing-button:hover {
+    transform: translate(3px, 3px);
+    box-shadow: 3px 3px 0 #111;
+}
+
+/* =========================================================
+   MUSIC BUTTON
+========================================================= */
+
+.music-button {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 5000;
+    border: 3px solid #111;
+    background: #d71920;
+    color: white;
+    padding: 10px 14px;
+    font-size: 11px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 #111;
+    transition: 0.2s;
+}
+
+.music-button:hover {
+    transform: translateY(-2px);
+}
+
+/* =========================================================
+   MAIN INVITATION
+========================================================= */
+
+.main-invitation {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s ease;
+}
+
+.main-invitation.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    position: relative;
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 50% 25%, #ed1c24 0%, #b40009 42%, #111 100%);
+    color: white;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.12;
+    background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 25px,
+        #fff 25px,
+        #fff 27px
+    );
+    animation: speedMove 8s linear infinite;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 35px;
+    background-color: white;
+    background-image:
+        linear-gradient(45deg, #111 25%, transparent 25%),
+        linear-gradient(-45deg, #111 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #111 75%),
+        linear-gradient(-45deg, transparent 75%, #111 75%);
+    background-size: 26px 26px;
+    background-position:
+        0 0,
+        0 13px,
+        13px -13px,
+        -13px 0;
+    animation: finishLineMove 3s linear infinite;
+}
+
+.hero-speed-lines {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,0.12),
+            transparent
+        );
+    animation: heroLight 3s linear infinite;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    width: min(100%, 650px);
+    animation: heroEnter 1s ease both;
+}
+
+.hero-top-label {
+    font-size: 13px;
+    letter-spacing: 5px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.hero-flags {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.hero-flag {
+    width: 65px;
+    height: 65px;
+    background-color: white;
+    background-image:
+        linear-gradient(45deg, #111 25%, transparent 25%),
+        linear-gradient(-45deg, #111 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #111 75%),
+        linear-gradient(-45deg, transparent 75%, #111 75%);
+    background-size: 18px 18px;
+    background-position:
+        0 0,
+        0 9px,
+        9px -9px,
+        -9px 0;
+}
+
+.hero-title {
+    background: #fff;
+    color: #111;
+    padding: 12px 18px;
+    border: 4px solid #111;
+    box-shadow: 6px 6px 0 #111;
+    transform: rotate(-2deg);
+}
+
+.hero-title span {
+    display: block;
+    font-size: 12px;
+    letter-spacing: 3px;
+}
+
+.hero-title strong {
+    display: block;
+    color: #d71920;
+    font-size: 32px;
+    line-height: 1;
+}
+
+.hero-name {
+    margin-top: 28px;
+    font-size: clamp(42px, 11vw, 82px);
+    font-weight: 900;
+    line-height: 0.9;
+    text-shadow: 5px 5px 0 #111;
+    animation: namePulse 2.2s ease-in-out infinite;
+}
+
+.hero-age {
+    margin-top: 16px;
+    font-size: clamp(22px, 5vw, 38px);
+    letter-spacing: 3px;
+}
+
+.hero-photo-frame {
+    position: relative;
+    width: min(78vw, 360px);
+    margin: 30px auto;
+    padding: 10px;
+    background: white;
+    border: 5px solid #111;
+    box-shadow: 10px 10px 0 #111;
+    transform: rotate(-2deg);
+    animation: photoFloat 3s ease-in-out infinite;
+}
+
+.hero-photo-frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.photo-speed-line {
+    position: absolute;
+    top: 50%;
+    left: -80px;
+    width: 80px;
+    height: 5px;
+    background: white;
+    animation: carSpeed 1.5s linear infinite;
+}
+
+.hero-event-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.hero-event-info div {
+    background: #111;
+    padding: 10px 14px;
+    border: 2px solid white;
+}
+
+.countdown {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.countdown-box {
+    min-width: 65px;
+    background: white;
+    color: #111;
+    border: 3px solid #111;
+    padding: 8px;
+    box-shadow: 3px 3px 0 #111;
+}
+
+.countdown-box span {
+    display: block;
+    font-size: 22px;
+    font-weight: 900;
+}
+
+.countdown-box small {
+    font-size: 8px;
+    font-weight: bold;
+}
+
+.start-button {
+    margin-top: 25px;
+    padding: 15px 45px;
+    border: 4px solid #111;
+    background: #d71920;
+    color: white;
+    font-weight: 900;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 6px 6px 0 #111;
+    transition: 0.2s;
+}
+
+.start-button:hover {
+    transform: translate(4px, 4px);
+    box-shadow: 2px 2px 0 #111;
+}
+
+/* =========================================================
+   COMMON SECTION DESIGN
+========================================================= */
+
+section:not(.hero) {
+    position: relative;
+    overflow: hidden;
+}
+
+.event-section,
+.photo-section,
+.dress-section,
+.gift-section,
+.reminder-section,
+.rsvp-section {
+    padding: 80px 20px;
+    background: #f7f7f7;
+}
+
+.event-section::before,
+.photo-section::before,
+.dress-section::before,
+.gift-section::before,
+.reminder-section::before,
+.rsvp-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background-color: #fff;
+    background-image:
+        linear-gradient(45deg, #111 25%, transparent 25%),
+        linear-gradient(-45deg, #111 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #111 75%),
+        linear-gradient(-45deg, transparent 75%, #111 75%);
+    background-size: 24px 24px;
+    background-position:
+        0 0,
+        0 12px,
+        12px -12px,
+        -12px 0;
+    animation: finishLineMove 3s linear infinite;
+    z-index: 3;
+}
+
+.section-title {
+    position: relative;
+    z-index: 4;
+    max-width: 850px;
+    margin: 0 auto 40px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    transform: translateY(35px);
+    animation: sectionTitleIn 0.8s ease forwards;
+}
+
+.section-number {
+    background: #d71920;
+    color: white;
+    padding: 8px 10px;
+    font-size: 13px;
+    font-weight: 900;
+    border: 3px solid #111;
+    box-shadow: 4px 4px 0 #111;
+}
+
+.section-title h2 {
+    font-size: clamp(24px, 6vw, 42px);
+    font-weight: 900;
+}
+
+/* =========================================================
+   WELCOME
+========================================================= */
+
+.welcome {
+    position: relative;
+    padding: 100px 20px;
+    background: white;
+    text-align: center;
+    overflow: hidden;
+}
+
+.welcome::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background-color: #fff;
+    background-image:
+        linear-gradient(45deg, #111 25%, transparent 25%),
+        linear-gradient(-45deg, #111 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #111 75%),
+        linear-gradient(-45deg, transparent 75%, #111 75%);
+    background-size: 24px 24px;
+    animation: finishLineMove 3s linear infinite;
+}
+
+.welcome-content {
+    max-width: 750px;
+    margin: auto;
+    animation: welcomeFloat 1s ease both;
+}
+
+.welcome-badge {
+    display: inline-block;
+    background: #111;
+    color: white;
+    padding: 8px 15px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.welcome h2 {
+    color: #d71920;
+    font-size: 20px;
+    letter-spacing: 4px;
+}
+
+.welcome h1 {
+    margin-top: 10px;
+    font-size: clamp(38px, 9vw, 70px);
+    line-height: 0.95;
+    font-weight: 900;
+}
+
+.red-divider {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 30px auto;
+}
+
+.red-divider span {
+    width: 80px;
+    height: 7px;
+    background: #d71920;
+}
+
+.greeting-text {
+    margin: 12px auto;
+    max-width: 650px;
+    line-height: 1.7;
+    font-size: 16px;
+}
+
+.birthday-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 30px;
+    color: #d71920;
+    font-size: 20px;
+}
+
+.birthday-message span {
+    width: 60px;
+    height: 4px;
+    background: #111;
+}
+
+/* =========================================================
+   EVENT DETAILS
+========================================================= */
+
+.event-section {
+    background: #ececec;
+}
+
+.event-cards {
+    max-width: 850px;
+    margin: auto;
+    display: grid;
+    gap: 18px;
+}
+
+.event-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: white;
+    border: 4px solid #111;
+    padding: 20px;
+    box-shadow: 7px 7px 0 #111;
+    opacity: 0;
+    transform: translateX(-60px);
+    animation: cardSlide 0.8s ease forwards;
+}
+
+.event-card:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.event-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.event-icon {
+    font-size: 35px;
+    min-width: 55px;
+    text-align: center;
+}
+
+.event-card h3 {
+    color: #d71920;
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+
+.event-card p {
+    margin-top: 5px;
+    font-weight: bold;
+    line-height: 1.5;
+}
+
+.map-button {
+    display: block;
+    width: fit-content;
+    margin: 35px auto 0;
+    background: #d71920;
+    color: white;
+    text-decoration: none;
+    padding: 15px 25px;
+    border: 4px solid #111;
+    font-weight: 900;
+    box-shadow: 6px 6px 0 #111;
+    transition: 0.2s;
+}
+
+.map-button:hover {
+    transform: translate(4px, 4px);
+    box-shadow: 2px 2px 0 #111;
+}
+
+/* =========================================================
+   PHOTO SECTION
+========================================================= */
+
+.photo-section {
+    background: #111;
+    color: white;
+    min-height: 700px;
+}
+
+.photo-section .section-title h2 {
+    color: white;
+}
+
+.photo-content {
+    max-width: 700px;
+    margin: auto;
+}
+
+.racer-carousel {
+    position: relative;
+    width: min(90vw, 430px);
+    margin: auto;
+    overflow: hidden;
+    border: 5px solid white;
+    box-shadow: 10px 10px 0 #d71920;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.55s cubic-bezier(.77,0,.18,1);
+}
+
+.racer-slide {
+    min-width: 100%;
+}
+
+.racer-slide img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    border: 3px solid #111;
+    background: white;
+    color: #111;
+    font-weight: 900;
+    cursor: pointer;
+    z-index: 5;
+}
+
+.carousel-prev {
+    left: 10px;
+}
+
+.carousel-next {
+    right: 10px;
+}
+
+.carousel-button:hover {
+    background: #d71920;
+    color: white;
+}
+
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 25px;
+}
+
+.carousel-dot {
+    width: 11px;
+    height: 11px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0.4;
+    transition: 0.3s;
+}
+
+.carousel-dot.active {
+    background: #d71920;
+    opacity: 1;
+    transform: scale(1.3);
+}
+
+.swipe-text {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    opacity: 0.7;
+}
+
+/* =========================================================
+   DRESS CODE
+========================================================= */
+
+.dress-content {
+    max-width: 750px;
+    margin: auto;
+    text-align: center;
+}
+
+.dress-intro {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.dress-colors {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.dress-color {
+    height: 150px;
+    border: 5px solid #111;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    padding-bottom: 18px;
+    box-shadow: 6px 6px 0 #111;
+    animation: colorFloat 2.5s ease-in-out infinite;
+}
+
+.dress-color:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.dress-color:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+.dress-color.red {
+    background: #d71920;
+    color: white;
+}
+
+.dress-color.white {
+    background: white;
+    color: #111;
+}
+
+.dress-color.black {
+    background: #111;
+    color: white;
+}
+
+.dress-color span {
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.dress-note {
+    margin-top: 30px;
+    font-weight: bold;
+}
+
+/* =========================================================
+   GIFT GUIDE
+========================================================= */
+
+.gift-section {
+    background: #111;
+    color: white;
+}
+
+.gift-section .section-title h2 {
+    color: white;
+}
+
+.gift-intro {
+    max-width: 750px;
+    margin: 0 auto 35px;
+    text-align: center;
+    line-height: 1.7;
+}
+
+.gift-cards {
+    max-width: 900px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.gift-card {
+    background: white;
+    color: #111;
+    border: 4px solid #d71920;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 7px 7px 0 #d71920;
+    animation: giftPop 0.8s ease both;
+}
+
+.gift-card:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.gift-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.gift-card:nth-child(4) {
+    animation-delay: 0.45s;
+}
+
+.gift-icon {
+    font-size: 40px;
+    margin-bottom: 12px;
+}
+
+.gift-card h3 {
+    color: #d71920;
+    font-size: 15px;
+    letter-spacing: 2px;
+}
+
+.gift-card p {
+    margin-top: 10px;
+    line-height: 1.6;
+}
+
+/* =========================================================
+   REMINDERS
+========================================================= */
+
+.reminder-list {
+    max-width: 850px;
+    margin: auto;
+    display: grid;
+    gap: 15px;
+}
+
+.reminder-item {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: white;
+    border-left: 8px solid #d71920;
+    padding: 20px;
+    box-shadow: 5px 5px 0 #111;
+    animation: reminderIn 0.8s ease both;
+}
+
+.reminder-item:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.reminder-item:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.reminder-item:nth-child(4) {
+    animation-delay: 0.45s;
+}
+
+.reminder-icon {
+    font-size: 30px;
+}
+
+.reminder-item strong {
+    color: #d71920;
+    font-size: 14px;
+}
+
+.reminder-item p {
+    margin-top: 5px;
+    line-height: 1.5;
+}
+
+/* =========================================================
    RSVP
-===================================================== */
+========================================================= */
 
-const openRsvp = document.getElementById("openRsvp");
-const rsvpForm = document.getElementById("rsvpForm");
-const submitRsvp = document.getElementById("submitRsvp");
-const guestName = document.getElementById("guestName");
-const attendance = document.getElementById("attendance");
-const guestCount = document.getElementById("guestCount");
-
-if (openRsvp && rsvpForm) {
-    openRsvp.addEventListener("click", () => {
-        rsvpForm.classList.toggle("show");
-
-        if (rsvpForm.classList.contains("show")) {
-            setTimeout(() => {
-                rsvpForm.scrollIntoView({
-                    behavior: "smooth",
-                    block: "center"
-                });
-            }, 100);
-        }
-    });
+.rsvp-section {
+    background: #d71920;
+    color: white;
+    text-align: center;
 }
 
-if (submitRsvp) {
-    submitRsvp.addEventListener("click", async () => {
-        const name = guestName ? guestName.value.trim() : "";
-        const selectedAttendance = attendance ? attendance.value : "";
-        const guests = guestCount ? guestCount.value : "1";
-
-        if (!name) {
-            alert("Please enter your name.");
-            if (guestName) guestName.focus();
-            return;
-        }
-
-        if (!selectedAttendance) {
-            alert("Please select your attendance.");
-            if (attendance) attendance.focus();
-            return;
-        }
-
-        if (!guests || !Number.isInteger(Number(guests)) || Number(guests) < 1) {
-            alert("Please enter a valid number of guests.");
-            if (guestCount) guestCount.focus();
-            return;
-        }
-
-        const originalText = submitRsvp.textContent;
-        submitRsvp.disabled = true;
-        submitRsvp.textContent = "SUBMITTING...";
-
-        const data = {
-            name: name,
-            attendance: selectedAttendance,
-            guests: Number(guests)
-        };
-
-        try {
-            await fetch(RSVP_URL, {
-                method: "POST",
-                mode: "no-cors",
-                headers: {
-                    "Content-Type": "text/plain;charset=utf-8"
-                },
-                body: JSON.stringify(data)
-            });
-
-            alert(
-                "Your RSVP request was sent. Thank you, " +
-                name + "!"
-            );
-
-            if (guestName) guestName.value = "";
-            if (attendance) attendance.value = "";
-            if (guestCount) guestCount.value = "1";
-            if (rsvpForm) rsvpForm.classList.remove("show");
-
-        } catch (error) {
-            console.error("RSVP Error:", error);
-            alert("Something went wrong. Please try again.");
-        } finally {
-            submitRsvp.disabled = false;
-            submitRsvp.textContent = originalText;
-        }
-    });
+.rsvp-section .section-title {
+    justify-content: center;
 }
 
-/* =====================================================
-   LITTLE RACER CAROUSEL
-===================================================== */
-
-const carousel = document.querySelector(".racer-carousel");
-const carouselTrack = document.querySelector(".carousel-track");
-const slides = document.querySelectorAll(".racer-slide");
-const prevButton = document.querySelector(".carousel-prev");
-const nextButton = document.querySelector(".carousel-next");
-const dots = document.querySelectorAll(".carousel-dot");
-
-let currentSlide = 0;
-
-function updateCarousel() {
-    if (!carouselTrack || slides.length === 0) return;
-
-    currentSlide = (currentSlide + slides.length) % slides.length;
-
-    carouselTrack.style.transform =
-        `translateX(-${currentSlide * 100}%)`;
-
-    dots.forEach((dot, index) => {
-        dot.classList.toggle("active", index === currentSlide);
-    });
+.rsvp-section .section-title h2 {
+    color: white;
 }
 
-function nextSlide() {
-    if (slides.length === 0) return;
-    currentSlide++;
-    updateCarousel();
+.rsvp-text {
+    margin-bottom: 25px;
+    font-size: 18px;
 }
 
-function previousSlide() {
-    if (slides.length === 0) return;
-    currentSlide--;
-    updateCarousel();
+.rsvp-button,
+.submit-rsvp {
+    padding: 16px 30px;
+    background: #111;
+    color: white;
+    border: 4px solid white;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 6px 6px 0 white;
+    transition: 0.2s;
 }
 
-if (nextButton) {
-    nextButton.addEventListener("click", nextSlide);
+.rsvp-button:hover,
+.submit-rsvp:hover {
+    transform: translate(4px, 4px);
+    box-shadow: 2px 2px 0 white;
 }
 
-if (prevButton) {
-    prevButton.addEventListener("click", previousSlide);
+.rsvp-form {
+    max-width: 500px;
+    margin: 30px auto 0;
+    background: white;
+    color: #111;
+    padding: 25px;
+    border: 5px solid #111;
+    box-shadow: 8px 8px 0 #111;
+    display: none;
+    text-align: left;
+    animation: formOpen 0.5s ease;
 }
 
-dots.forEach((dot, index) => {
-    dot.addEventListener("click", () => {
-        if (index < slides.length) {
-            currentSlide = index;
-            updateCarousel();
-        }
-    });
-});
-
-updateCarousel();
-
-/* =====================================================
-   MOBILE SWIPE
-===================================================== */
-
-let touchStartX = 0;
-let touchEndX = 0;
-
-if (carousel) {
-    carousel.addEventListener("touchstart", event => {
-        touchStartX = event.changedTouches[0].screenX;
-    }, { passive: true });
-
-    carousel.addEventListener("touchend", event => {
-        touchEndX = event.changedTouches[0].screenX;
-
-        const swipeDistance = touchStartX - touchEndX;
-
-        if (swipeDistance > 50) nextSlide();
-        if (swipeDistance < -50) previousSlide();
-    }, { passive: true });
+.rsvp-form.show {
+    display: block;
 }
 
-/* =====================================================
-   KEYBOARD NAVIGATION
-===================================================== */
-
-document.addEventListener("keydown", event => {
-    if (event.key === "ArrowRight") nextSlide();
-    if (event.key === "ArrowLeft") previousSlide();
-});
-
-/* =====================================================
-   PREVENT IMAGE DRAGGING
-===================================================== */
-
-document.querySelectorAll("img").forEach(image => {
-    image.addEventListener("dragstart", event => {
-        event.preventDefault();
-    });
-});
-
-/* =====================================================
-   RSVP ENTER KEY
-===================================================== */
-
-if (guestName && attendance) {
-    guestName.addEventListener("keydown", event => {
-        if (event.key === "Enter") {
-            attendance.focus();
-        }
-    });
+.form-group {
+    margin-bottom: 18px;
 }
 
-/* =====================================================
-   PAGE LOAD
-===================================================== */
+.form-group label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 12px;
+    font-weight: 900;
+}
 
-window.addEventListener("load", () => {
-    updateCarousel();
-    revealOnScroll();
-});
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 13px;
+    border: 3px solid #111;
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #d71920;
+}
+
+.submit-rsvp {
+    width: 100%;
+    background: #d71920;
+    border-color: #111;
+    box-shadow: 5px 5px 0 #111;
+}
+
+/* =========================================================
+   CLOSING
+========================================================= */
+
+.closing-section {
+    position: relative;
+    min-height: 800px;
+    background:
+        linear-gradient(
+            rgba(0,0,0,0.72),
+            rgba(0,0,0,0.72)
+        ),
+        url("images/ensley3.jpg") center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    overflow: hidden;
+}
+
+.closing-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 32px;
+    background-color: white;
+    background-image:
+        linear-gradient(45deg, #111 25%, transparent 25%),
+        linear-gradient(-45deg, #111 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #111 75%),
+        linear-gradient(-45deg, transparent 75%, #111 75%);
+    background-size: 26px 26px;
+    animation: finishLineMove 3s linear infinite;
+}
+
+.closing-content {
+    position: relative;
+    z-index: 2;
+    padding: 30px;
+    animation: closingEnter 1.2s ease both;
+}
+
+.closing-content > p:first-child {
+    letter-spacing: 4px;
+    font-weight: bold;
+}
+
+.closing-content h2 {
+    color: #d71920;
+    font-size: clamp(45px, 11vw, 90px);
+    text-shadow: 5px 5px 0 #111;
+    margin: 10px 0;
+}
+
+.closing-content h3 {
+    font-size: 28px;
+}
+
+.closing-photo {
+    width: min(70vw, 300px);
+    margin: 30px auto;
+    border: 6px solid white;
+    box-shadow: 8px 8px 0 #d71920;
+    transform: rotate(2deg);
+    animation: photoFloat 3s ease-in-out infinite;
+}
+
+.closing-photo img {
+    display: block;
+    width: 100%;
+}
+
+.closing-message {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    position: relative;
+    background: #111;
+    color: white;
+    text-align: center;
+    padding: 70px 20px 35px;
+    overflow: hidden;
+}
+
+.footer-checkered {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    animation: finishLineMove 3s linear infinite;
+}
+
+footer p {
+    margin-top: 10px;
+    color: #d71920;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+footer small {
+    display: block;
+    margin-top: 8px;
+    opacity: 0.7;
+}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes openingEnter {
+    from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes heroEnter {
+    from {
+        opacity: 0;
+        transform: translateY(60px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes sectionTitleIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes cardSlide {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes reminderIn {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes giftPop {
+    from {
+        opacity: 0;
+        transform: scale(0.85) translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes formOpen {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes photoFloat {
+    0%,
+    100% {
+        transform: rotate(-2deg) translateY(0);
+    }
+
+    50% {
+        transform: rotate(-2deg) translateY(-10px);
+    }
+}
+
+@keyframes namePulse {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.03);
+    }
+}
+
+@keyframes flagWave {
+    0%,
+    100% {
+        transform: skewY(-8deg) rotate(0);
+    }
+
+    50% {
+        transform: skewY(-8deg) rotate(3deg);
+    }
+}
+
+@keyframes speedMove {
+    from {
+        transform: translateX(-100px);
+    }
+
+    to {
+        transform: translateX(100px);
+    }
+}
+
+@keyframes heroLight {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes carSpeed {
+    0% {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+
+    30% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(450px);
+    }
+}
+
+@keyframes finishLineMove {
+    from {
+        background-position:
+            0 0,
+            0 12px,
+            12px -12px,
+            -12px 0;
+    }
+
+    to {
+        background-position:
+            48px 0,
+            48px 12px,
+            60px -12px,
+            36px 0;
+    }
+}
+
+@keyframes welcomeFloat {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes colorFloat {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes closingEnter {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .checkered-top,
+    .checkered-bottom {
+        height: 30px;
+    }
+
+    .flag {
+        width: 48px;
+        height: 48px;
+        background-size: 14px 14px;
+    }
+
+    .flag-title {
+        padding: 10px 13px;
+    }
+
+    .flag-title strong {
+        font-size: 22px;
+    }
+
+    .opening-small {
+        font-size: 10px;
+        letter-spacing: 2px;
+    }
+
+    .opening-name {
+        font-size: 45px;
+    }
+
+    .opening-birthday {
+        font-size: 22px;
+    }
+
+    .hero {
+        padding-top: 90px;
+        padding-bottom: 70px;
+    }
+
+    .hero-flag {
+        width: 45px;
+        height: 45px;
+        background-size: 13px 13px;
+    }
+
+    .hero-title {
+        padding: 9px 12px;
+    }
+
+    .hero-title strong {
+        font-size: 25px;
+    }
+
+    .hero-name {
+        font-size: 48px;
+    }
+
+    .hero-age {
+        font-size: 24px;
+    }
+
+    .hero-event-info {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .countdown-box {
+        min-width: 58px;
+    }
+
+    .countdown-box span {
+        font-size: 18px;
+    }
+
+    .section-title {
+        align-items: flex-start;
+    }
+
+    .section-title h2 {
+        font-size: 25px;
+    }
+
+    .dress-colors {
+        grid-template-columns: 1fr;
+    }
+
+    .dress-color {
+        height: 110px;
+    }
+
+    .gift-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .reminder-item {
+        align-items: flex-start;
+    }
+
+    .music-button {
+        top: 10px;
+        right: 10px;
+        font-size: 9px;
+        padding: 8px 10px;
+    }
+
+    .closing-section {
+        min-height: 700px;
+    }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    
+}
+
