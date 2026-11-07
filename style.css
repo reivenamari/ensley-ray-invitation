@@ -1529,5 +1529,23 @@ footer small {
         scroll-behavior: auto !important;
         transition-duration: 0.01ms !important;
     }
+   /* FIX TAP TO OPEN BUTTON */
+
+.opening-content {
+    position: relative;
+    z-index: 10;
+}
+
+.racing-button {
+    position: relative;
+    z-index: 20;
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.checkered-top,
+.checkered-bottom {
+    pointer-events: none;
+}
 }
 ```
