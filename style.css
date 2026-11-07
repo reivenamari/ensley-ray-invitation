@@ -1,1600 +1,459 @@
+/* =====================================================
+   ENSLEY RAY FIRST BIRTHDAY
+   COMPLETE JAVASCRIPT
+===================================================== */
 
-/* =========================================================
-   ENSLEY RAY - FIRST BIRTHDAY
-   FULL RACING DESIGN + ALL ELEMENT ANIMATIONS
-========================================================= */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #111;
-    color: #111;
-    overflow-x: hidden;
-}
-
-button,
-input,
-select {
-    font: inherit;
-}
-
-button,
-a {
-    -webkit-tap-highlight-color: transparent;
-}
-
-button {
-    cursor: pointer;
-}
-
-img {
-    max-width: 100%;
-}
-
-/* =========================================================
-   CHECKERED PATTERN
-========================================================= */
-
-.checkered-top,
-.checkered-bottom,
-.section-racing-top,
-.rsvp-finish-line,
-.closing-checkered,
-.footer-checkered {
-    background-color: #fff;
-    background-image:
-        linear-gradient(45deg, #111 25%, transparent 25%),
-        linear-gradient(-45deg, #111 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, #111 75%),
-        linear-gradient(-45deg, transparent 75%, #111 75%);
-    background-size: 24px 24px;
-    background-position:
-        0 0,
-        0 12px,
-        12px -12px,
-        -12px 0;
-    animation: checkeredMove 3s linear infinite;
-}
-
-/* =========================================================
-   OPENING SCREEN
-========================================================= */
-
-.opening-screen {
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-    background: #f8f8f8;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    overflow: auto;
-    transition: transform .9s ease, opacity .9s ease;
-    pointer-events: auto;
-}
-
-.opening-screen.opened {
-    transform: translateY(-100%);
-    opacity: 0;
-    pointer-events: none;
-}
-
-.checkered-top,
-.checkered-bottom {
-    width: 100%;
-    height: 42px;
-    flex-shrink: 0;
-    pointer-events: none;
-}
-
-.opening-content {
-    position: relative;
-    z-index: 10;
-    width: min(92%, 600px);
-    margin: auto;
-    text-align: center;
-    padding: 30px 20px;
-    animation: openingEnter 1s ease both;
-    pointer-events: auto;
-}
-
-.racing-flags {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 28px;
-}
-
-.flag {
-    width: 75px;
-    height: 75px;
-    background-color: white;
-    background-image:
-        linear-gradient(45deg, #111 25%, transparent 25%),
-        linear-gradient(-45deg, #111 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, #111 75%),
-        linear-gradient(-45deg, transparent 75%, #111 75%);
-    background-size: 20px 20px;
-    background-position: 0 0, 0 10px, 10px -10px, -10px 0;
-    transform: skewY(-8deg);
-    animation: flagWave 2s ease-in-out infinite;
-}
-
-.flag-right {
-    animation-delay: .3s;
-}
-
-.flag-title {
-    background: #d71920;
-    color: white;
-    padding: 15px 20px;
-    border: 5px solid #111;
-    box-shadow: 7px 7px 0 #111;
-    transform: rotate(-2deg);
-    animation: titleEntrance .9s .2s ease both;
-}
-
-.flag-title span {
-    display: block;
-    font-size: 13px;
-    letter-spacing: 3px;
-}
-
-.flag-title strong {
-    display: block;
-    font-size: 30px;
-    letter-spacing: 2px;
-}
-
-.opening-small {
-    font-size: 13px;
-    letter-spacing: 4px;
-    font-weight: bold;
-    margin-bottom: 8px;
-    animation: fadeUp .9s .3s both;
-}
-
-.opening-name {
-    color: #d71920;
-    font-size: clamp(42px, 10vw, 80px);
-    font-weight: 900;
-    line-height: .95;
-    letter-spacing: -2px;
-    text-shadow: 4px 4px 0 #111;
-    animation: namePulse 2s ease-in-out infinite;
-}
-
-.opening-birthday {
-    margin-top: 18px;
-    font-size: clamp(22px, 5vw, 38px);
-    font-weight: 900;
-    letter-spacing: 2px;
-    animation: fadeUp 1s .4s both;
-}
-
-.opening-date {
-    margin-top: 18px;
-    display: inline-block;
-    padding: 10px 20px;
-    background: #111;
-    color: white;
-    font-weight: bold;
-    letter-spacing: 2px;
-    animation: fadeUp 1s .5s both;
-}
-
-.racing-button {
-    position: relative;
-    z-index: 100000;
-    margin-top: 28px;
-    padding: 16px 35px;
-    border: 4px solid #111;
-    background: #d71920;
-    color: white;
-    font-size: 16px;
-    font-weight: 900;
-    letter-spacing: 2px;
-    cursor: pointer;
-    pointer-events: auto;
-    touch-action: manipulation;
-    box-shadow: 6px 6px 0 #111;
-    transition: transform .2s, box-shadow .2s;
-    animation: buttonPulse 2s ease-in-out infinite;
-}
-
-.racing-button:hover {
-    transform: translate(3px, 3px);
-    box-shadow: 3px 3px 0 #111;
-}
-
-/* =========================================================
-   MUSIC BUTTON
-========================================================= */
-
-.music-button {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    z-index: 100001;
-    padding: 10px 15px;
-    border: 3px solid #111;
-    background: #d71920;
-    color: #fff;
-    font-size: 11px;
-    font-weight: 900;
-    letter-spacing: 1px;
-    box-shadow: 4px 4px 0 #111;
-    animation: buttonPulse 2s ease-in-out infinite;
-}
-
-/* =========================================================
-   MAIN INVITATION
-========================================================= */
-
-.main-invitation {
-    display: none;
-    opacity: 0;
-}
-
-.main-invitation.show {
-    display: block;
-    opacity: 1;
-    animation: pageReveal .8s ease forwards;
-}
-
-/* =========================================================
-   HERO
-========================================================= */
-
-.hero {
-    position: relative;
-    min-height: 100vh;
-    padding: 70px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    background: #f8f8f8;
-    text-align: center;
-}
-
-.hero::before,
-.hero::after {
-    content: "";
-    position: absolute;
-    width: 180px;
-    height: 12px;
-    background: #d71920;
-    transform: rotate(-35deg);
-    opacity: .8;
-    animation: decorationMove 4s ease-in-out infinite;
-}
-
-.hero::before {
-    top: 80px;
-    left: -50px;
-}
-
-.hero::after {
-    right: -50px;
-    bottom: 100px;
-    animation-delay: .5s;
-}
-
-.hero-speed-lines {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: repeating-linear-gradient(
-        135deg,
-        transparent 0,
-        transparent 45px,
-        rgba(215, 25, 32, .04) 46px,
-        rgba(215, 25, 32, .04) 49px
-    );
-    animation: speedLines 10s linear infinite;
-}
-
-.hero-content {
-    position: relative;
-    z-index: 2;
-    width: min(100%, 650px);
-    animation: fadeUp 1s ease both;
-}
-
-.hero-top-label {
-    display: inline-block;
-    padding: 9px 20px;
-    background: #111;
-    color: white;
-    font-weight: 900;
-    letter-spacing: 3px;
-    font-size: 12px;
-    animation: fadeUp .8s .1s both;
-}
-
-.hero-flags {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin: 25px 0;
-}
-
-.hero-flag {
-    width: 65px;
-    height: 65px;
-    background-color: #fff;
-    background-image:
-        linear-gradient(45deg, #111 25%, transparent 25%),
-        linear-gradient(-45deg, #111 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, #111 75%),
-        linear-gradient(-45deg, transparent 75%, #111 75%);
-    background-size: 20px 20px;
-    background-position: 0 0, 0 10px, 10px -10px, -10px 0;
-    animation: flagWave 2s ease-in-out infinite;
-}
-
-.hero-flag:last-child {
-    animation-delay: .3s;
-}
-
-.hero-title {
-    padding: 12px 22px;
-    background: #d71920;
-    color: white;
-    border: 4px solid #111;
-    transform: rotate(-2deg);
-    box-shadow: 5px 5px 0 #111;
-    animation: titleEntrance .9s .2s both;
-}
-
-.hero-title span,
-.hero-title strong {
-    display: block;
-}
-
-.hero-title span {
-    font-size: 13px;
-    letter-spacing: 3px;
-}
-
-.hero-title strong {
-    font-size: 32px;
-    letter-spacing: 3px;
-}
-
-.hero-name {
-    color: #d71920;
-    font-size: clamp(40px, 10vw, 76px);
-    line-height: .95;
-    font-weight: 900;
-    text-shadow: 4px 4px 0 #111;
-    animation: namePulse 2.5s ease-in-out infinite;
-}
-
-.hero-age {
-    margin: 18px 0;
-    font-size: clamp(20px, 5vw, 34px);
-    font-weight: 900;
-    animation: fadeUp .9s .3s both;
-}
-
-.hero-photo-frame {
-    position: relative;
-    width: min(75vw, 330px);
-    margin: 25px auto;
-    padding: 9px;
-    background: #fff;
-    border: 5px solid #111;
-    box-shadow: 10px 10px 0 #d71920;
-    transform: rotate(-2deg);
-    animation: photoFloat 4s ease-in-out infinite;
-}
-
-.hero-photo-frame img {
-    display: block;
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-    animation: imageReveal 1s ease both;
-}
-
-.photo-speed-line {
-    position: absolute;
-    width: 70px;
-    height: 8px;
-    right: -35px;
-    top: 25px;
-    background: #d71920;
-    transform: rotate(-35deg);
-    animation: decorationMove 3s ease-in-out infinite;
-}
-
-.hero-event-info {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin: 25px auto;
-}
-
-.hero-event-info div {
-    background: #111;
-    color: white;
-    padding: 11px 13px;
-    font-size: 12px;
-    letter-spacing: 1px;
-    animation: fadeUp .7s ease both;
-    transition: transform .3s ease;
-}
-
-.hero-event-info div:hover {
-    transform: translateY(-5px);
-}
-
-.countdown {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 9px;
-    margin: 25px 0;
-}
-
-.countdown-box {
-    min-width: 68px;
-    padding: 12px 8px;
-    background: #d71920;
-    color: white;
-    border: 3px solid #111;
-    box-shadow: 3px 3px 0 #111;
-    animation: countdownPop .8s ease both;
-    transition: transform .3s ease;
-}
-
-.countdown-box:hover {
-    transform: translateY(-7px);
-}
-
-.countdown-box span,
-.countdown-box small {
-    display: block;
-}
-
-.countdown-box span {
-    font-size: 24px;
-    font-weight: 900;
-}
-
-.countdown-box small {
-    font-size: 9px;
-    font-weight: bold;
-    letter-spacing: 1px;
-}
-
-.start-button,
-.rsvp-button,
-.submit-rsvp,
-.map-button {
-    display: inline-block;
-    border: 3px solid #111;
-    background: #d71920;
-    color: white;
-    padding: 14px 25px;
-    font-weight: 900;
-    letter-spacing: 2px;
-    text-decoration: none;
-    box-shadow: 5px 5px 0 #111;
-    transition: .2s;
-    animation: buttonEntrance .8s ease both;
-}
-
-.start-button:hover,
-.rsvp-button:hover,
-.submit-rsvp:hover,
-.map-button:hover {
-    transform: translate(3px, 3px);
-    box-shadow: 2px 2px 0 #111;
-}
-
-/* =========================================================
-   COMMON SECTION DESIGN
-========================================================= */
-
-section:not(.hero) {
-    position: relative;
-    padding: 75px 20px;
-    overflow: hidden;
-}
-
-.section-title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 35px;
-    text-align: center;
-    animation: fadeUp .8s ease both;
-}
-
-.section-title h2 {
-    font-size: clamp(20px, 5vw, 30px);
-    font-weight: 900;
-    letter-spacing: 1px;
-    animation: titleEntrance 1s ease both;
-}
-
-.section-number {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 42px;
-    height: 42px;
-    flex-shrink: 0;
-    background: #d71920;
-    color: white;
-    border: 3px solid #111;
-    font-weight: 900;
-    box-shadow: 3px 3px 0 #111;
-    animation: numberBounce 2s ease-in-out infinite;
-}
-
-.section-racing-top {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 25px;
-}
-
-/* =========================================================
-   WELCOME
-========================================================= */
-
-.welcome {
-    background: #111;
-    color: white;
-    text-align: center;
-}
-
-.racing-line {
-    height: 8px;
-    width: 100%;
-    background: repeating-linear-gradient(
-        90deg,
-        #d71920 0,
-        #d71920 35px,
-        white 35px,
-        white 70px
-    );
-    animation: racingLineMove 3s linear infinite;
-}
-
-.welcome-content {
-    width: min(100%, 700px);
-    margin: auto;
-    padding: 35px 10px;
-}
-
-.welcome-badge {
-    display: inline-block;
-    padding: 9px 18px;
-    background: #d71920;
-    border: 2px solid white;
-    font-size: 12px;
-    font-weight: 900;
-    letter-spacing: 2px;
-    animation: badgeBounce 2s ease-in-out infinite;
-}
-
-.welcome h2 {
-    margin-top: 25px;
-    font-size: 22px;
-    letter-spacing: 3px;
-    animation: fadeUp .9s .2s both;
-}
-
-.welcome h1 {
-    margin: 12px 0;
-    color: #fff;
-    font-size: clamp(34px, 8vw, 60px);
-    font-weight: 900;
-    line-height: 1.05;
-    text-shadow: 4px 4px 0 #d71920;
-    animation: namePulse 2.5s ease-in-out infinite;
-}
-
-.red-divider {
-    width: 130px;
-    height: 5px;
-    margin: 25px auto;
-    background: #d71920;
-    animation: dividerGrow 1s ease both;
-}
-
-.greeting-text {
-    max-width: 580px;
-    margin: 15px auto;
-    line-height: 1.8;
-    color: #eee;
-    animation: fadeUp 1s .3s both;
-}
-
-.birthday-message {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin: 28px auto;
-    color: #ff333b;
-    letter-spacing: 2px;
-    animation: emojiBounce 2.5s ease-in-out infinite;
-}
-
-.birthday-message span {
-    width: 35px;
-    height: 3px;
-    background: white;
-}
-
-.thank-you {
-    color: #ccc;
-    font-style: italic;
-    line-height: 1.7;
-    animation: fadeUp 1s .5s both;
-}
-
-/* =========================================================
-   EVENT DETAILS
-========================================================= */
-
-.event-section {
-    background: #f5f5f5;
-    text-align: center;
-}
-
-.event-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-    gap: 18px;
-    width: min(100%, 850px);
-    margin: auto auto 30px;
-}
-
-.event-card {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 22px;
-    background: white;
-    border: 3px solid #111;
-    box-shadow: 6px 6px 0 #d71920;
-    text-align: left;
-    opacity: 0;
-    transform: translateY(25px);
-    transition: opacity .6s ease, transform .6s ease, box-shadow .3s ease;
-}
-
-.event-card.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.event-card:hover {
-    box-shadow: 10px 10px 0 #d71920;
-}
-
-.event-icon {
-    font-size: 30px;
-    display: inline-block;
-    animation: emojiBounce 2.5s ease-in-out infinite;
-}
-
-.event-card h3 {
-    margin-bottom: 7px;
-    color: #d71920;
-    font-size: 14px;
-    letter-spacing: 2px;
-}
-
-.event-card p {
-    line-height: 1.5;
-    font-weight: bold;
-}
-
-.map-button {
-    margin-top: 15px;
-}
-
-/* =========================================================
-   PHOTO SECTION
-========================================================= */
-
-.photo-section {
-    background: #e8e8e8;
-    text-align: center;
-}
-
-.photo-content {
-    position: relative;
-    z-index: 2;
-    width: min(100%, 650px);
-    margin: auto;
-}
-
-.photo-decoration {
-    position: absolute;
-    width: 80px;
-    height: 8px;
-    background: #d71920;
-    transform: rotate(-35deg);
-    animation: decorationMove 4s ease-in-out infinite;
-}
-
-.photo-decoration.left {
-    top: 120px;
-    left: -20px;
-}
-
-.photo-decoration.right {
-    right: -20px;
-    bottom: 100px;
-    animation-delay: .5s;
-}
-
-.racer-carousel {
-    position: relative;
-    width: min(90vw, 430px);
-    margin: auto;
-    overflow: hidden;
-    border: 5px solid white;
-    box-shadow: 10px 10px 0 #d71920;
-    touch-action: pan-y;
-    background: #111;
-    transition: box-shadow .4s ease;
-}
-
-.racer-carousel:hover {
-    box-shadow: 14px 14px 0 #d71920;
-}
-
-.carousel-track {
-    display: flex;
-    transition: transform .55s cubic-bezier(.77, 0, .18, 1);
-    will-change: transform;
-}
-
-.racer-slide {
-    min-width: 100%;
-    flex: 0 0 100%;
-}
-
-.racer-slide img {
-    display: block;
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-    user-select: none;
-    -webkit-user-drag: none;
-}
-
-.carousel-button {
-    position: absolute;
-    top: 50%;
-    z-index: 5;
-    transform: translateY(-50%);
-    width: 42px;
-    height: 42px;
-    border: 2px solid white;
-    background: #d71920;
-    color: white;
-    font-size: 20px;
-    font-weight: 900;
-    transition: background .3s ease, transform .3s ease;
-}
-
-.carousel-button:hover {
-    background: #111;
-    transform: translateY(-50%) scale(1.12);
-}
-
-.carousel-prev {
-    left: 10px;
-}
-
-.carousel-next {
-    right: 10px;
-}
-
-.carousel-dots {
-    display: flex;
-    justify-content: center;
-    gap: 9px;
-    margin: 25px auto 15px;
-}
-
-.carousel-dot {
-    width: 12px;
-    height: 12px;
-    padding: 0;
-    border: 2px solid #111;
-    border-radius: 50%;
-    background: white;
-    transition: transform .3s ease, background .3s ease;
-}
-
-.carousel-dot.active {
-    background: #d71920;
-    transform: scale(1.4);
-}
-
-.swipe-text {
-    font-size: 12px;
-    font-weight: 900;
-    letter-spacing: 2px;
-    animation: gentleFloat 2s ease-in-out infinite;
-}
-
-/* =========================================================
-   DRESS CODE
-========================================================= */
+"use strict";
 
-.dress-section {
-    background: #fff;
-    text-align: center;
-}
-
-.dress-intro {
-    margin-bottom: 25px;
-    font-weight: bold;
-    animation: fadeUp .9s ease both;
-}
-
-.dress-colors {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 18px;
-}
-
-.dress-color {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 105px;
-    height: 105px;
-    border: 4px solid #111;
-    box-shadow: 5px 5px 0 #d71920;
-    font-weight: 900;
-    transition: transform .35s ease, box-shadow .35s ease;
-    animation: cardEntrance .8s ease both;
-}
-
-.dress-color:hover {
-    transform: translateY(-9px) rotate(-3deg);
-    box-shadow: 9px 9px 0 #d71920;
-}
-
-.dress-color.red {
-    background: #d71920;
-    color: white;
-}
+/* =====================================================
+   GOOGLE SHEETS RSVP URL
+===================================================== */
 
-.dress-color.white {
-    background: white;
-    color: #111;
-}
-
-.dress-color.black {
-    background: #111;
-    color: white;
-}
-
-.dress-note {
-    margin-top: 25px;
-    font-weight: 900;
-    letter-spacing: 1px;
-    animation: fadeUp 1s .3s both;
-}
-
-/* =========================================================
-   GIFT GUIDE
-========================================================= */
+const RSVP_URL =
+"https://script.google.com/macros/s/AKfycbxfsAwuC3AdGPlNROEocxFGZNQM819WMaWlr-RpE4373kWyO-hfOIh1cBpTYvLhv3s/exec";
 
-.gift-section {
-    background: #f0f0f0;
-    text-align: center;
-}
-
-.gift-intro {
-    max-width: 620px;
-    margin: 0 auto 30px;
-    line-height: 1.8;
-    animation: fadeUp .9s ease both;
-}
+/* =====================================================
+   ELEMENTS
+===================================================== */
 
-.gift-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-    gap: 18px;
-    width: min(100%, 900px);
-    margin: auto;
-}
-
-.gift-card {
-    padding: 25px 18px;
-    background: white;
-    border: 3px solid #111;
-    box-shadow: 6px 6px 0 #d71920;
-    opacity: 0;
-    transform: translateY(25px);
-    transition: opacity .6s ease, transform .6s ease, box-shadow .3s ease;
-}
+const openingScreen = document.getElementById("openingScreen");
+const mainInvitation = document.getElementById("mainInvitation");
+const tapToOpen = document.getElementById("tapToOpen");
 
-.gift-card.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
+const musicButton = document.getElementById("musicButton");
+const birthdayMusic = document.getElementById("birthdayMusic");
 
-.gift-card:hover {
-    box-shadow: 10px 10px 0 #d71920;
-}
+const startButton = document.getElementById("startButton");
 
-.gift-icon {
-    display: inline-block;
-    margin-bottom: 12px;
-    font-size: 36px;
-    animation: emojiBounce 2.5s ease-in-out infinite;
-}
+let invitationOpened = false;
 
-.gift-card h3 {
-    margin-bottom: 12px;
-    color: #d71920;
-    font-size: 15px;
-}
+/* =====================================================
+   OPEN INVITATION
+===================================================== */
 
-.gift-card p {
-    line-height: 1.7;
-}
+function openInvitation(event) {
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
 
-/* =========================================================
-   REMINDERS
-========================================================= */
+    if (invitationOpened) {
+        return;
+    }
 
-.reminder-section {
-    background: #111;
-    color: white;
-}
+    if (!openingScreen || !mainInvitation) {
+        console.error("Opening screen or main invitation not found.");
+        return;
+    }
 
-.reminder-section .section-title h2 {
-    color: white;
-}
+    invitationOpened = true;
 
-.reminder-list {
-    width: min(100%, 720px);
-    margin: auto;
-}
+    openingScreen.classList.add("opened");
+    mainInvitation.classList.add("show");
 
-.reminder-item {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    margin-bottom: 15px;
-    padding: 18px;
-    background: #fff;
-    color: #111;
-    border-left: 7px solid #d71920;
-    box-shadow: 5px 5px 0 #555;
-    opacity: 0;
-    transform: translateX(-25px);
-    transition: opacity .6s ease, transform .6s ease, box-shadow .3s ease;
-}
+    playMusic();
 
-.reminder-item.visible {
-    opacity: 1;
-    transform: translateX(0);
-}
+    setTimeout(function () {
+        openingScreen.style.display = "none";
+    }, 950);
 
-.reminder-item:hover {
-    box-shadow: 9px 9px 0 #555;
+    setTimeout(function () {
+        revealVisibleElements();
+    }, 300);
 }
 
-.reminder-icon {
-    display: inline-block;
-    font-size: 30px;
-    animation: emojiBounce 2.5s ease-in-out infinite;
-}
+/*
+   Direct button event.
+   Since script.js is loaded at the bottom of HTML,
+   the button already exists when this runs.
+*/
 
-.reminder-item strong {
-    font-size: 14px;
+if (tapToOpen) {
+    tapToOpen.addEventListener("click", openInvitation);
 }
 
-.reminder-item p {
-    margin-top: 6px;
-    color: #555;
-    font-size: 13px;
-    line-height: 1.5;
-}
+/*
+   Backup event delegation.
+   This also catches clicks if the button is recreated.
+*/
 
-/* =========================================================
-   RSVP
-========================================================= */
+document.addEventListener("click", function (event) {
+    const button = event.target.closest("#tapToOpen");
 
-.rsvp-section {
-    background: #f4f4f4;
-    text-align: center;
-}
+    if (button) {
+        openInvitation(event);
+    }
+});
 
-.rsvp-finish-line {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 25px;
-}
+/* =====================================================
+   MUSIC
+===================================================== */
 
-.rsvp-text {
-    margin: 0 auto 25px;
-    line-height: 1.7;
-    animation: fadeUp .9s ease both;
-}
+function playMusic() {
+    if (!birthdayMusic || !musicButton) {
+        return;
+    }
 
-.rsvp-form {
-    display: none;
-    width: min(100%, 480px);
-    margin: 30px auto 0;
-    padding: 25px;
-    background: white;
-    border: 3px solid #111;
-    box-shadow: 7px 7px 0 #d71920;
-    text-align: left;
-    transform-origin: top center;
-}
+    birthdayMusic.volume = 0.6;
 
-.rsvp-form.show {
-    display: block;
-    animation: formReveal .5s ease both;
-}
+    const playPromise = birthdayMusic.play();
 
-.form-group {
-    margin-bottom: 18px;
-    animation: fadeUp .6s ease both;
-}
+    if (playPromise !== undefined) {
+        playPromise
+            .then(function () {
+                musicButton.textContent = "PAUSE MUSIC";
+            })
+            .catch(function () {
+                musicButton.textContent = "PLAY MUSIC";
+            });
+    }
+}
+
+function pauseMusic() {
+    if (!birthdayMusic || !musicButton) {
+        return;
+    }
+
+    birthdayMusic.pause();
+    musicButton.textContent = "PLAY MUSIC";
+}
 
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 12px;
-    font-weight: 900;
-    letter-spacing: 1px;
+if (musicButton) {
+    musicButton.addEventListener("click", function () {
+        if (!birthdayMusic) {
+            return;
+        }
+
+        if (birthdayMusic.paused) {
+            playMusic();
+        } else {
+            pauseMusic();
+        }
+    });
 }
 
-.form-group input,
-.form-group select {
-    width: 100%;
-    padding: 13px;
-    border: 2px solid #111;
-    border-radius: 0;
-    background: #fff;
-    color: #111;
-    transition: border-color .25s ease, box-shadow .25s ease;
-}
+/* =====================================================
+   START BUTTON
+===================================================== */
 
-.form-group input:focus,
-.form-group select:focus {
-    outline: none;
-    border-color: #d71920;
-    box-shadow: 0 0 0 3px rgba(215, 25, 32, .15);
-}
+if (startButton) {
+    startButton.addEventListener("click", function () {
+        const welcomeSection = document.querySelector(".welcome");
 
-.submit-rsvp {
-    width: 100%;
+        if (welcomeSection) {
+            welcomeSection.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }
+    });
 }
 
-.submit-rsvp:disabled {
-    opacity: .7;
-    cursor: not-allowed;
-}
+/* =====================================================
+   COUNTDOWN
+===================================================== */
 
-/* =========================================================
-   CLOSING
-========================================================= */
-
-.closing-section {
-    position: relative;
-    min-height: 90vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #d71920;
-    color: white;
-    text-align: center;
-}
+function updateCountdown() {
+    const eventDate = new Date("December 5, 2026 20:00:00").getTime();
+    const now = new Date().getTime();
+    const distance = eventDate - now;
 
-.closing-overlay {
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(
-        135deg,
-        transparent 0,
-        transparent 40px,
-        rgba(0, 0, 0, .08) 41px,
-        rgba(0, 0, 0, .08) 45px
-    );
-    animation: speedLines 12s linear infinite;
-}
+    const daysElement = document.getElementById("days");
+    const hoursElement = document.getElementById("hours");
+    const minutesElement = document.getElementById("minutes");
+    const secondsElement = document.getElementById("seconds");
 
-.closing-content {
-    position: relative;
-    z-index: 2;
-    width: min(100%, 600px);
-    padding: 30px 15px;
-    animation: fadeUp 1s ease both;
-}
+    if (!daysElement || !hoursElement || !minutesElement || !secondsElement) {
+        return;
+    }
 
-.closing-checkered {
-    width: 100%;
-    height: 22px;
-    margin-bottom: 30px;
-}
+    if (distance <= 0) {
+        daysElement.textContent = "0";
+        hoursElement.textContent = "00";
+        minutesElement.textContent = "00";
+        secondsElement.textContent = "00";
+        return;
+    }
 
-.closing-content > p:first-of-type {
-    font-size: 13px;
-    font-weight: bold;
-    letter-spacing: 3px;
-}
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((distance / (1000 * 60)) % 60);
+    const seconds = Math.floor((distance / 1000) % 60);
 
-.closing-content h2 {
-    margin: 15px 0;
-    font-size: clamp(35px, 9vw, 65px);
-    font-weight: 900;
-    text-shadow: 4px 4px 0 #111;
-    animation: namePulse 2.5s ease-in-out infinite;
-}
+    daysElement.textContent = days;
+    hoursElement.textContent = String(hours).padStart(2, "0");
+    minutesElement.textContent = String(minutes).padStart(2, "0");
+    secondsElement.textContent = String(seconds).padStart(2, "0");
+}
 
-.closing-content h3 {
-    margin-bottom: 25px;
-    font-size: 23px;
-    letter-spacing: 3px;
-    animation: fadeUp 1s .2s both;
-}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+/* =====================================================
+   SCROLL REVEAL ANIMATIONS
+===================================================== */
+
+const revealSelectors = [
+    ".section-title",
+    ".event-card",
+    ".gift-card",
+    ".reminder-item",
+    ".welcome-content",
+    ".dress-content",
+    ".racer-carousel",
+    ".carousel-dots",
+    ".rsvp-text",
+    ".closing-content"
+];
+
+function prepareRevealElements() {
+    revealSelectors.forEach(function (selector) {
+        document.querySelectorAll(selector).forEach(function (element) {
+            element.classList.add("reveal");
+        });
+    });
+}
+
+function revealVisibleElements() {
+    const elements = document.querySelectorAll(".reveal");
+
+    elements.forEach(function (element) {
+        const position = element.getBoundingClientRect();
+
+        if (position.top < window.innerHeight - 60) {
+            element.classList.add("visible");
+        }
+    });
+}
+
+prepareRevealElements();
+
+window.addEventListener("scroll", revealVisibleElements);
+window.addEventListener("resize", revealVisibleElements);
+window.addEventListener("load", revealVisibleElements);
+
+/* =====================================================
+   RSVP FORM OPEN / CLOSE
+===================================================== */
+
+const openRsvpButton = document.getElementById("openRsvp");
+const rsvpForm = document.getElementById("rsvpForm");
+
+if (openRsvpButton && rsvpForm) {
+    openRsvpButton.addEventListener("click", function () {
+        rsvpForm.classList.toggle("show");
+
+        if (rsvpForm.classList.contains("show")) {
+            rsvpForm.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+        }
+    });
+}
+
+/* =====================================================
+   SUBMIT RSVP
+===================================================== */
+
+const submitRsvpButton = document.getElementById("submitRsvp");
+
+if (submitRsvpButton) {
+    submitRsvpButton.addEventListener("click", async function () {
+        const guestName = document.getElementById("guestName");
+        const attendance = document.getElementById("attendance");
+        const guestCount = document.getElementById("guestCount");
+
+        if (!guestName || !attendance || !guestCount) {
+            alert("RSVP form fields are missing.");
+            return;
+        }
+
+        const nameValue = guestName.value.trim();
+        const attendanceValue = attendance.value;
+        const guestCountValue = guestCount.value;
 
-.closing-photo {
-    width: min(70vw, 280px);
-    margin: auto;
-    padding: 8px;
-    background: white;
-    border: 4px solid #111;
-    box-shadow: 9px 9px 0 #111;
-    transform: rotate(-2deg);
-    animation: photoFloat 4s ease-in-out infinite;
-}
+        if (nameValue === "") {
+            alert("Please enter your name.");
+            guestName.focus();
+            return;
+        }
 
-.closing-photo img {
-    display: block;
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-}
+        if (attendanceValue === "") {
+            alert("Please select your attendance.");
+            attendance.focus();
+            return;
+        }
 
-.closing-message {
-    margin-top: 30px;
-    font-size: 18px;
-    font-weight: bold;
-    letter-spacing: 2px;
-    animation: fadeUp 1s .4s both;
-}
+        if (
+            guestCountValue === "" ||
+            Number(guestCountValue) < 1
+        ) {
+            alert("Please enter a valid number of guests.");
+            guestCount.focus();
+            return;
+        }
 
-/* =========================================================
-   FOOTER
-========================================================= */
-
-footer {
-    padding: 25px 15px;
-    background: #111;
-    color: white;
-    text-align: center;
-}
+        if (!RSVP_URL || RSVP_URL.includes("PASTE_YOUR")) {
+            alert("The RSVP connection is not configured.");
+            return;
+        }
 
-.footer-checkered {
-    width: min(100%, 300px);
-    height: 18px;
-    margin: 0 auto 20px;
-}
+        const formData = new URLSearchParams();
 
-footer p {
-    font-weight: 900;
-    letter-spacing: 2px;
-    animation: fadeUp .8s ease both;
-}
+        formData.append("name", nameValue);
+        formData.append("attendance", attendanceValue);
+        formData.append("guestCount", guestCountValue);
 
-footer small {
-    display: block;
-    margin-top: 9px;
-    color: #ccc;
-    letter-spacing: 2px;
-    animation: fadeUp 1s .2s both;
-}
+        submitRsvpButton.disabled = true;
+        submitRsvpButton.textContent = "SUBMITTING...";
 
-/* =========================================================
-   ALL TEXT, EMOJI AND ICON ANIMATIONS
-========================================================= */
-
-/* Animated emojis */
-.event-icon,
-.gift-icon,
-.reminder-icon,
-.birthday-message,
-.opening-content .flag,
-.section-number {
-    will-change: transform;
-}
+        try {
+            await fetch(RSVP_URL, {
+                method: "POST",
+                mode: "no-cors",
+                body: formData
+            });
 
-/* Floating small decorative icons */
-.opening-content .flag-title,
-.hero-top-label,
-.welcome-badge {
-    animation: badgeBounce 2.5s ease-in-out infinite;
-}
+            alert(
+                "Thank you, " + nameValue +
+                "! Your RSVP request has been sent."
+            );
 
-/* Text hover */
-.section-title h2,
-.event-card h3,
-.gift-card h3,
-.reminder-item strong {
-    transition: color .3s ease, transform .3s ease;
-}
+            guestName.value = "";
+            attendance.value = "";
+            guestCount.value = "1";
 
-.section-title h2:hover,
-.event-card h3:hover,
-.gift-card h3:hover {
-    transform: scale(1.04);
-}
+            rsvpForm.classList.remove("show");
 
-/* =========================================================
-   ANIMATION KEYFRAMES
-========================================================= */
-
-@keyframes openingEnter {
-    from {
-        opacity: 0;
-        transform: translateY(25px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+        } catch (error) {
+            console.error("RSVP error:", error);
+            alert("Unable to send your RSVP. Please try again.");
+        } finally {
+            submitRsvpButton.disabled = false;
+            submitRsvpButton.textContent = "SUBMIT RSVP";
+        }
+    });
 }
 
-@keyframes pageReveal {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
+/* =====================================================
+   PHOTO CAROUSEL
+===================================================== */
 
-@keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+const carousel = document.querySelector(".racer-carousel");
+const carouselTrack = document.querySelector(".carousel-track");
+const slides = document.querySelectorAll(".racer-slide");
+const prevButton = document.querySelector(".carousel-prev");
+const nextButton = document.querySelector(".carousel-next");
+const dots = document.querySelectorAll(".carousel-dot");
 
-@keyframes titleEntrance {
-    from {
-        opacity: 0;
-        transform: scale(.85) rotate(-4deg);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1) rotate(-2deg);
-    }
-}
+let currentSlide = 0;
+let touchStartX = 0;
+let touchEndX = 0;
 
-@keyframes flagWave {
-    0%, 100% {
-        transform: skewY(-8deg) rotate(0);
+function updateCarousel() {
+    if (!carouselTrack || slides.length === 0) {
+        return;
     }
-    50% {
-        transform: skewY(-8deg) rotate(4deg);
-    }
-}
 
-@keyframes namePulse {
-    0%, 100% {
-        transform: scale(1);
-        text-shadow: 4px 4px 0 #111;
-    }
-    50% {
-        transform: scale(1.035);
-        text-shadow: 5px 5px 0 #111, 0 0 12px rgba(215, 25, 32, .35);
-    }
-}
+    carouselTrack.style.transform =
+        "translateX(-" + (currentSlide * 100) + "%)";
 
-@keyframes photoFloat {
-    0%, 100% {
-        transform: translateY(0) rotate(-2deg);
-    }
-    50% {
-        transform: translateY(-10px) rotate(1deg);
-    }
+    dots.forEach(function (dot, index) {
+        dot.classList.toggle("active", index === currentSlide);
+    });
 }
 
-@keyframes imageReveal {
-    from {
-        opacity: 0;
-        transform: scale(.9);
+function showNextSlide() {
+    if (slides.length === 0) {
+        return;
     }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
 
-@keyframes decorationMove {
-    0%, 100% {
-        translate: 0 0;
-    }
-    50% {
-        translate: 8px -8px;
-    }
+    currentSlide = (currentSlide + 1) % slides.length;
+    updateCarousel();
 }
 
-@keyframes speedLines {
-    from {
-        background-position: 0 0;
+function showPreviousSlide() {
+    if (slides.length === 0) {
+        return;
     }
-    to {
-        background-position: 100px 100px;
-    }
-}
 
-@keyframes countdownPop {
-    0% {
-        opacity: 0;
-        transform: scale(.7);
-    }
-    70% {
-        transform: scale(1.1);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
+    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+    updateCarousel();
 }
 
-@keyframes numberBounce {
-    0%, 100% {
-        transform: translateY(0) rotate(0);
-    }
-    50% {
-        transform: translateY(-5px) rotate(3deg);
-    }
+if (nextButton) {
+    nextButton.addEventListener("click", showNextSlide);
 }
 
-@keyframes emojiBounce {
-    0%, 100% {
-        transform: translateY(0) rotate(0);
-    }
-    25% {
-        transform: translateY(-7px) rotate(-5deg);
-    }
-    50% {
-        transform: translateY(0) rotate(5deg);
-    }
-    75% {
-        transform: translateY(-4px) rotate(-3deg);
-    }
+if (prevButton) {
+    prevButton.addEventListener("click", showPreviousSlide);
 }
 
-@keyframes badgeBounce {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-5px);
-    }
-}
+dots.forEach(function (dot) {
+    dot.addEventListener("click", function () {
+        const slideNumber = Number(dot.dataset.slide);
 
-@keyframes dividerGrow {
-    from {
-        width: 0;
-        opacity: 0;
-    }
-    to {
-        width: 130px;
-        opacity: 1;
-    }
-}
+        if (
+            Number.isInteger(slideNumber) &&
+            slideNumber >= 0 &&
+            slideNumber < slides.length
+        ) {
+            currentSlide = slideNumber;
+            updateCarousel();
+        }
+    });
+});
 
-@keyframes racingLineMove {
-    from {
-        background-position: 0 0;
-    }
-    to {
-        background-position: 70px 0;
-    }
-}
+/* Touch swipe support */
 
-@keyframes checkeredMove {
-    from {
-        background-position:
-            0 0,
-            0 12px,
-            12px -12px,
-            -12px 0;
-    }
-    to {
-        background-position:
-            24px 0,
-            24px 12px,
-            36px -12px,
-            12px 0;
-    }
-}
+if (carousel) {
+    carousel.addEventListener("touchstart", function (event) {
+        touchStartX = event.changedTouches[0].screenX;
+    }, { passive: true });
 
-@keyframes buttonEntrance {
-    from {
-        opacity: 0;
-        transform: translateY(15px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+    carousel.addEventListener("touchend", function (event) {
+        touchEndX = event.changedTouches[0].screenX;
 
-@keyframes buttonPulse {
-    0%, 100% {
-        box-shadow: 4px 4px 0 #111;
-    }
-    50% {
-        box-shadow: 6px 6px 0 #111, 0 0 12px rgba(215, 25, 32, .4);
-    }
-}
+        const difference = touchStartX - touchEndX;
 
-@keyframes formReveal {
-    from {
-        opacity: 0;
-        transform: translateY(20px) scale(.97);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
+        if (Math.abs(difference) < 40) {
+            return;
+        }
 
-@keyframes cardEntrance {
-    from {
-        opacity: 0;
-        transform: translateY(25px) scale(.96);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+        if (difference > 0) {
+            showNextSlide();
+        } else {
+            showPreviousSlide();
+        }
+    }, { passive: true });
 }
-
-/* =========================================================
-   MOBILE RESPONSIVE
-========================================================= */
-
-@media (max-width: 600px) {
-    .opening-content {
-        padding: 20px 10px;
-    }
-
-    .flag {
-        width: 48px;
-        height: 48px;
-        background-size: 15px 15px;
-    }
-
-    .flag-title {
-        padding: 10px 13px;
-    }
-
-    .flag-title strong {
-        font-size: 23px;
-    }
-
-    .opening-small {
-        font-size: 10px;
-        letter-spacing: 2px;
-    }
-
-    .opening-date {
-        font-size: 12px;
-    }
-
-    .racing-button {
-        padding: 14px 25px;
-    }
-
-    .hero {
-        padding: 75px 15px 55px;
-    }
-
-    .hero-event-info {
-        gap: 7px;
-    }
-
-    .hero-event-info div {
-        font-size: 10px;
-        padding: 9px;
-    }
 
-    section:not(.hero) {
-        padding: 65px 15px;
-    }
-
-    .section-title {
-        gap: 8px;
-    }
+/* Keyboard support */
 
-    .section-title h2 {
-        font-size: 19px;
+document.addEventListener("keydown", function (event) {
+    if (event.key === "ArrowRight") {
+        showNextSlide();
     }
 
-    .section-number {
-        width: 35px;
-        height: 35px;
-        font-size: 13px;
+    if (event.key === "ArrowLeft") {
+        showPreviousSlide();
     }
+});
 
-    .event-cards,
-    .gift-cards {
-        grid-template-columns: 1fr;
-    }
-
-    .event-card {
-        padding: 18px;
-    }
+/* Prevent dragging carousel photos */
 
-    .reminder-item {
-        align-items: flex-start;
-        padding: 15px;
-    }
+document.querySelectorAll(".racer-slide img").forEach(function (image) {
+    image.addEventListener("dragstart", function (event) {
+        event.preventDefault();
+    });
+});
 
-    .rsvp-form {
-        padding: 18px;
-    }
+/* =====================================================
+   INITIALIZE
+===================================================== */
 
-    .music-button {
-        top: 10px;
-        right: 10px;
-        font-size: 10px;
-        padding: 8px 10px;
-    }
-}
+updateCarousel();
+revealVisibleElements();
 
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        scroll-behavior: auto !important;
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: .01ms !important;
-    }
-}
+console.log("Ensley Ray Birthday Invitation Loaded Successfully!");
