@@ -1,19 +1,602 @@
-function openInvitation(event) {
-    if (event) {
-        event.preventDefault();
-        event.stopPropagation();
-    }
 
-    if (invitationOpened) return;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#c90018">
 
-    invitationOpened = true;
+    <title>Ensley Ray | First Birthday</title>
 
-    openingScreen.classList.add("opened");
-    mainInvitation.classList.add("show");
+    <link rel="stylesheet" href="style.css">
+</head>
 
-    playMusic();
+<body>
 
-    setTimeout(function () {
-        openingScreen.style.display = "none";
-    }, 950);
-}
+    <!-- OPENING SCREEN -->
+    <div class="opening-screen" id="openingScreen">
+
+        <div class="checkered-top"></div>
+
+        <div class="opening-content">
+            <p class="opening-small">START YOUR ENGINES!</p>
+
+            <h1 class="opening-title">
+                ENSLEY RAY
+            </h1>
+
+            <h2 class="opening-subtitle">
+                IS ON
+            </h2>
+
+            <div class="opening-car">🏁</div>
+
+            <p class="opening-message">
+                You're invited to celebrate
+                my very first birthday!
+            </p>
+
+            <button
+                id="tapToOpen"
+                class="racing-button"
+                type="button"
+                onclick="openInvitation(event)">
+                TAP TO OPEN
+            </button>
+        </div>
+
+        <div class="checkered-bottom"></div>
+
+    </div>
+
+
+    <!-- MAIN INVITATION -->
+    <main id="mainInvitation" class="main-invitation">
+
+
+        <!-- HERO SECTION -->
+        <section class="hero section" id="home">
+
+            <div class="checkered-top"></div>
+
+            <div class="hero-content">
+
+                <p class="hero-label">
+                    YOU ARE INVITED TO
+                </p>
+
+                <h1 class="hero-name">
+                    ENSLEY RAY
+                </h1>
+
+                <h2 class="hero-age">
+                    FIRST BIRTHDAY
+                </h2>
+
+                <div class="hero-photo">
+                    <img
+                        src="images/ensley1.jpg"
+                        alt="Ensley Ray">
+                </div>
+
+                <p class="hero-date">
+                    DECEMBER 5, 2026
+                </p>
+
+                <p class="hero-location">
+                    JOLLIBEE PANTOK
+                    <br>
+                    BINANGONAN, RIZAL
+                </p>
+
+                <a href="#eventDetails" class="racing-button">
+                    LET'S RACE!
+                </a>
+
+            </div>
+
+            <div class="checkered-bottom"></div>
+
+        </section>
+
+
+        <!-- BIRTHDAY GREETING -->
+        <section class="section welcome-section" id="welcome">
+
+            <div class="section-heading">
+                <span class="section-emoji">🏎️</span>
+
+                <h2>READY, SET, CELEBRATE!</h2>
+
+                <p class="section-subtitle">
+                    Our little racer is turning ONE!
+                </p>
+            </div>
+
+            <div class="welcome-card">
+                <h3>ONE YEAR OF LOVE</h3>
+
+                <p>
+                    A year full of smiles, laughter,
+                    and wonderful memories.
+                </p>
+
+                <p>
+                    Join us as we celebrate a very
+                    special milestone in Ensley Ray's life.
+                </p>
+
+                <p class="welcome-highlight">
+                    We can't wait to celebrate with you!
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- EVENT DETAILS -->
+        <section class="section event-section" id="eventDetails">
+
+            <div class="section-heading">
+                <span class="section-emoji">🏁</span>
+
+                <h2>EVENT DETAILS</h2>
+
+                <p class="section-subtitle">
+                    Mark your calendars!
+                </p>
+            </div>
+
+            <div class="event-cards">
+
+                <div class="event-card">
+                    <span class="event-emoji">📅</span>
+                    <h3>DATE</h3>
+                    <p>December 5, 2026</p>
+                </div>
+
+                <div class="event-card">
+                    <span class="event-emoji">⏰</span>
+                    <h3>TIME</h3>
+                    <p>8:00 PM</p>
+                </div>
+
+                <div class="event-card">
+                    <span class="event-emoji">📍</span>
+                    <h3>VENUE</h3>
+                    <p>
+                        Jollibee Pantok
+                        <br>
+                        Binangonan, Rizal
+                    </p>
+                </div>
+
+            </div>
+
+
+            <!-- COUNTDOWN -->
+            <div class="countdown-container">
+
+                <h3>COUNTDOWN TO THE BIG DAY!</h3>
+
+                <div class="countdown">
+
+                    <div class="countdown-box">
+                        <span id="days">00</span>
+                        <small>DAYS</small>
+                    </div>
+
+                    <div class="countdown-box">
+                        <span id="hours">00</span>
+                        <small>HOURS</small>
+                    </div>
+
+                    <div class="countdown-box">
+                        <span id="minutes">00</span>
+                        <small>MINUTES</small>
+                    </div>
+
+                    <div class="countdown-box">
+                        <span id="seconds">00</span>
+                        <small>SECONDS</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PHOTO GALLERY -->
+        <section class="section gallery-section" id="gallery">
+
+            <div class="section-heading">
+                <span class="section-emoji">📸</span>
+
+                <h2>OUR LITTLE RACER</h2>
+
+                <p class="section-subtitle">
+                    A collection of precious memories
+                </p>
+            </div>
+
+            <div class="gallery-container">
+
+                <div class="gallery-track">
+
+                    <div class="gallery-slide">
+                        <img src="images/ensley1.jpg"
+                             alt="Ensley Ray photo 1">
+                    </div>
+
+                    <div class="gallery-slide">
+                        <img src="images/ensley2.jpg"
+                             alt="Ensley Ray photo 2">
+                    </div>
+
+                    <div class="gallery-slide">
+                        <img src="images/ensley3.jpg"
+                             alt="Ensley Ray photo 3">
+                    </div>
+
+                    <div class="gallery-slide">
+                        <img src="images/ensley4.jpg"
+                             alt="Ensley Ray photo 4">
+                    </div>
+
+                    <div class="gallery-slide">
+                        <img src="images/ensley5.jpg"
+                             alt="Ensley Ray photo 5">
+                    </div>
+
+                </div>
+
+                <div class="gallery-controls">
+
+                    <button
+                        type="button"
+                        id="prevSlide"
+                        class="gallery-arrow"
+                        aria-label="Previous photo">
+                        &#10094;
+                    </button>
+
+                    <button
+                        type="button"
+                        id="nextSlide"
+                        class="gallery-arrow"
+                        aria-label="Next photo">
+                        &#10095;
+                    </button>
+
+                </div>
+
+                <div class="gallery-dots">
+
+                    <button class="gallery-dot active"
+                            type="button"
+                            aria-label="Photo 1"></button>
+
+                    <button class="gallery-dot"
+                            type="button"
+                            aria-label="Photo 2"></button>
+
+                    <button class="gallery-dot"
+                            type="button"
+                            aria-label="Photo 3"></button>
+
+                    <button class="gallery-dot"
+                            type="button"
+                            aria-label="Photo 4"></button>
+
+                    <button class="gallery-dot"
+                            type="button"
+                            aria-label="Photo 5"></button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- DRESS CODE -->
+        <section class="section dress-section" id="dressCode">
+
+            <div class="section-heading">
+                <span class="section-emoji">👕</span>
+
+                <h2>DRESS CODE</h2>
+
+                <p class="section-subtitle">
+                    Come dressed for the celebration!
+                </p>
+            </div>
+
+            <div class="dress-card">
+
+                <p class="dress-message">
+                    Please wear any of these colors:
+                </p>
+
+                <div class="dress-colors">
+
+                    <div class="dress-color">
+                        <span class="color-circle red"></span>
+                        <p>RED</p>
+                    </div>
+
+                    <div class="dress-color">
+                        <span class="color-circle white"></span>
+                        <p>WHITE</p>
+                    </div>
+
+                    <div class="dress-color">
+                        <span class="color-circle black"></span>
+                        <p>BLACK</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- GIFT GUIDE -->
+        <section class="section gift-section" id="giftGuide">
+
+            <div class="section-heading">
+                <span class="section-emoji">🎁</span>
+
+                <h2>GIFT GUIDE</h2>
+
+                <p class="section-subtitle">
+                    Your presence is the greatest gift!
+                </p>
+            </div>
+
+            <div class="gift-card">
+
+                <div class="gift-item">
+                    <span>💌</span>
+                    <p>Monetary Gifts</p>
+                </div>
+
+                <div class="gift-item">
+                    <span>🧷</span>
+                    <p>HAPPY Dry XL</p>
+                </div>
+
+                <div class="gift-item">
+                    <span>👶</span>
+                    <p>HAPPY Pants XL</p>
+                </div>
+
+                <div class="gift-item">
+                    <span>🍼</span>
+                    <p>Nestogen 1–3 Years Old</p>
+                </div>
+
+                <div class="gift-item">
+                    <span>🎀</span>
+                    <p>Any gifts are appreciated!</p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- REMINDERS -->
+        <section class="section reminders-section" id="reminders">
+
+            <div class="section-heading">
+                <span class="section-emoji">📢</span>
+
+                <h2>FRIENDLY REMINDERS</h2>
+
+                <p class="section-subtitle">
+                    Help us keep our little racer safe.
+                </p>
+            </div>
+
+            <div class="reminder-list">
+
+                <div class="reminder-item">
+                    <span>🚭</span>
+                    <p>NO SMOKING / VAPE</p>
+                </div>
+
+                <div class="reminder-item">
+                    <span>😷</span>
+                    <p>WEAR MASK IF YOU HAVE A COLD</p>
+                </div>
+
+                <div class="reminder-item">
+                    <span>🚫</span>
+                    <p>STRICTLY NO KISSING</p>
+                </div>
+
+                <div class="reminder-item">
+                    <span>🧼</span>
+                    <p>
+                        SANITIZE YOUR HANDS BEFORE
+                        TOUCHING THE BABY
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RSVP -->
+        <section class="section rsvp-section" id="rsvp">
+
+            <div class="section-heading">
+                <span class="section-emoji">💌</span>
+
+                <h2>RACE TO RSVP!</h2>
+
+                <p class="section-subtitle">
+                    Kindly confirm your attendance.
+                </p>
+            </div>
+
+            <form id="rsvpForm" class="rsvp-form">
+
+                <div class="form-group">
+                    <label for="guestName">
+                        Your Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="guestName"
+                        name="name"
+                        placeholder="Enter your name"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="guestCount">
+                        Number of Guests
+                    </label>
+
+                    <input
+                        type="number"
+                        id="guestCount"
+                        name="guests"
+                        min="1"
+                        value="1"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="attendance">
+                        Will you attend?
+                    </label>
+
+                    <select
+                        id="attendance"
+                        name="attendance"
+                        required>
+
+                        <option value="">
+                            Select your response
+                        </option>
+
+                        <option value="Attending">
+                            Yes, I'll be there!
+                        </option>
+
+                        <option value="Not Attending">
+                            Sorry, I can't attend.
+                        </option>
+
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="guestMessage">
+                        Message (Optional)
+                    </label>
+
+                    <textarea
+                        id="guestMessage"
+                        name="message"
+                        rows="3"
+                        placeholder="Leave a birthday message..."></textarea>
+                </div>
+
+                <button
+                    type="submit"
+                    id="rsvpSubmit"
+                    class="racing-button">
+                    SUBMIT RSVP
+                </button>
+
+                <p id="rsvpMessage" class="rsvp-message"></p>
+
+            </form>
+
+        </section>
+
+
+        <!-- CLOSING -->
+        <section class="section closing-section" id="closing">
+
+            <div class="checkered-top"></div>
+
+            <div class="closing-content">
+
+                <div class="closing-photo">
+                    <img
+                        src="images/ensley3.jpg"
+                        alt="Ensley Ray birthday photo">
+                </div>
+
+                <h2>THANK YOU!</h2>
+
+                <h1>SEE YOU AT THE FINISH LINE!</h1>
+
+                <p>
+                    Thank you for being part of
+                    Ensley Ray's special day.
+                </p>
+
+                <p class="closing-name">
+                    WITH LOVE, ENSLEY RAY ❤️
+                </p>
+
+                <a href="#home" class="racing-button">
+                    BACK TO TOP
+                </a>
+
+            </div>
+
+            <div class="checkered-bottom"></div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+        <footer class="footer">
+
+            <p>
+                © 2026 ENSLEY RAY FIRST BIRTHDAY
+            </p>
+
+            <p>
+                MADE WITH LOVE ❤️
+            </p>
+
+        </footer>
+
+
+        <!-- MUSIC -->
+        <audio
+            id="backgroundMusic"
+            src="music/birthday.mp3"
+            loop
+            preload="auto">
+        </audio>
+
+        <button
+            type="button"
+            id="musicToggle"
+            class="music-toggle"
+            aria-label="Toggle background music">
+            🔊
+        </button>
+
+    </main>
+
+
+    <!-- JAVASCRIPT -->
+    <script src="script.js"></script>
+
+</body>
+</html>
